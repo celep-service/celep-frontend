@@ -4,17 +4,17 @@ import ViewContainer from '@/components/ViewContainer.vue'
 </script>
 
 <template>
-  <ViewContainer class="home-view">
+  <ViewContainer class="bookmarks-view">
     <template #app-bar>
       <AppBar />
     </template>
-
-    <main class="home-view__main"></main>
+    
+    <main class="bookmarks-view__main"></main>
   </ViewContainer>
 </template>
 
 <style scoped lang="scss">
-.home-view {
+.bookmarks-view {
   &__main {
   }
 }

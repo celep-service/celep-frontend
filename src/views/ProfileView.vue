@@ -4,17 +4,17 @@ import ViewContainer from '@/components/ViewContainer.vue'
 </script>
 
 <template>
-  <ViewContainer class="home-view">
+  <ViewContainer class="profile-view">
     <template #app-bar>
       <AppBar />
     </template>
 
-    <main class="home-view__main"></main>
+    <main class="profile-view__main"></main>
   </ViewContainer>
 </template>
 
 <style scoped lang="scss">
-.home-view {
+.profile-view {
   &__main {
   }
 }
