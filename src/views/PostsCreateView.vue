@@ -4,17 +4,17 @@ import ViewContainer from '@/components/ViewContainer.vue'
 </script>
 
 <template>
-  <ViewContainer class="home-view">
+  <ViewContainer :is-active-bottom-tab-bar="false" class="posts-create-view">
     <template #app-bar>
-      <AppBar />
+      <AppBar type="close" title="코디 추가" />
     </template>
 
-    <main class="home-view__main"></main>
+    <main class="posts-create-view__main"></main>
   </ViewContainer>
 </template>
 
 <style scoped lang="scss">
-.home-view {
+.posts-create-view {
   &__main {
   }
 }

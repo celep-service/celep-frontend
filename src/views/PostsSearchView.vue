@@ -4,17 +4,17 @@ import ViewContainer from '@/components/ViewContainer.vue'
 </script>
 
 <template>
-  <ViewContainer class="home-view">
+  <ViewContainer :is-active-bottom-tab-bar="false" class="posts-search-view">
     <template #app-bar>
-      <AppBar />
+      <AppBar type='back' title="검색" />
     </template>
 
-    <main class="home-view__main"></main>
+    <main class="posts-search-view__main"></main>
   </ViewContainer>
 </template>
 
 <style scoped lang="scss">
-.home-view {
+.posts-search-view {
   &__main {
   }
 }
