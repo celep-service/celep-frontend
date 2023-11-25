@@ -21,6 +21,7 @@ const route = useRoute()
 
 /* Local State */
 const isCurrentRoute = computed(() => route.name === props.routeName)
+const iconBottom = computed(() => (props.iconName === 'home' ? '1px' : '0'))
 
 /* Event Handler */
 const handleClickNavigation = () => {
@@ -32,12 +33,18 @@ const handleClickNavigation = () => {
 
 <template>
   <div @click="handleClickNavigation" class="bottom-tab-bar-navigation">
-    <BaseIcon :name="iconName" opsz="26" wght="250" :fill="Number(isCurrentRoute)" />
+    <BaseIcon
+      :name="iconName"
+      opsz="26"
+      wght="250"
+      :fill="Number(isCurrentRoute)"
+      class="bottom-tab-bar-navigation__icon"
+    />
     <TextBody2 weight="500">{{ text }}</TextBody2>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .bottom-tab-bar-navigation {
   display: flex;
   flex-direction: column;
@@ -45,5 +52,10 @@ const handleClickNavigation = () => {
   align-items: center;
   height: 50px;
   padding-inline: 10px;
+}
+
+.bottom-tab-bar-navigation__icon {
+  position: relative;
+  bottom: v-bind(iconBottom);
 }
 </style>
