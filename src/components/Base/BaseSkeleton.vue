@@ -4,7 +4,7 @@ import { computed } from 'vue'
 /* Prop */
 interface Props {
   shape?: 'rectangle' | 'circle'
-  width: string
+  width?: string
   height: string
 }
 const props = withDefaults(defineProps<Props>(), {
