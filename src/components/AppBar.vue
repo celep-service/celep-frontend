@@ -44,12 +44,12 @@ const handleClickCloseButton = () => {
 </script>
 
 <template>
-  <header class="the-app-bar">
+  <header class="app-bar">
     <TextHeading2
       v-if="props.type === 'logo'"
       @click="handleClickLogo"
       weight="650"
-      class="the-app-bar__logo"
+      class="app-bar__logo"
     >
       celep
     </TextHeading2>
@@ -60,14 +60,10 @@ const handleClickCloseButton = () => {
       name="arrow_back_ios_new"
       wght="500"
       opsz="20"
-      class="the-app-bar__back-button"
+      class="app-bar__back-button"
     />
 
-    <TextHeading3
-      v-if="props.title && props.type !== 'logo'"
-      weight="600"
-      class="the-app-bar__title"
-    >
+    <TextHeading3 v-if="props.title && props.type !== 'logo'" weight="600" class="app-bar__title">
       {{ props.title }}
     </TextHeading3>
 
@@ -77,18 +73,20 @@ const handleClickCloseButton = () => {
       name="close"
       wght="500"
       opsz="24"
-      class="the-app-bar__close-button"
+      class="app-bar__close-button"
     />
   </header>
 </template>
 
 <style scoped lang="scss">
-.the-app-bar {
+.app-bar {
+  z-index: 1000;
   position: relative;
   display: flex;
   align-items: center;
   flex-basis: 60px;
   background-color: rgba(var(--white));
+  border-bottom: solid 1px rgba(var(--gray-200));
 
   &__logo {
     padding: 8px 12px;
@@ -112,4 +110,3 @@ const handleClickCloseButton = () => {
   }
 }
 </style>
-@/stores/useConfirmDialogStore
