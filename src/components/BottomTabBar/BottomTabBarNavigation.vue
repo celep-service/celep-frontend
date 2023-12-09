@@ -25,6 +25,11 @@ const iconBottom = computed(() => (props.iconName === 'home' ? '1px' : '0'))
 
 /* Event Handler */
 const handleClickNavigation = () => {
+  if (route.name === 'home' && props.routeName === 'home') {
+    document.querySelector('.view-container__main-wrapper')!.scrollTo(0, 0)
+    return
+  }
+
   router.push({
     name: props.routeName
   })
