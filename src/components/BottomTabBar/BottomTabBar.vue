@@ -47,6 +47,7 @@ const NAVIGATIONS: BottomTabBarNavigationProps[] = [
 
 <style scoped lang="scss">
 .bottom-tab-bar {
+  z-index: 1000;
   position: fixed;
   bottom: 0;
   display: flex;
