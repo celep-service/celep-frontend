@@ -6,6 +6,7 @@ export interface BaseSelectOption {
 </script>
 
 <script setup lang="ts">
+import BaseIcon from '@/components/Base/BaseIcon.vue'
 import { computed } from 'vue'
 
 /* Prop */
@@ -36,25 +37,41 @@ const value = computed({
       <option v-if="placeholder" :value="undefined">{{ placeholder }}</option>
       <option v-for="{ value, label } in options" :key="value" :value="value">{{ label }}</option>
     </select>
+    <BaseIcon name="expand_more" class="base-select__icon" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .base-select {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
   border: solid 1px black;
   border-radius: 30px;
 
   select {
+    z-index: 10;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-inline: 10px 20px;
+    color: black;
+    background-color: transparent;
     font-weight: 550;
-    padding: 8px;
-    padding-right: 4px;
+    appearance: none;
     border: none;
     border-radius: inherit;
-    border-right: 8px solid transparent;
 
     &:focus {
       outline: none;
     }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 4px;
   }
 }
 </style>
