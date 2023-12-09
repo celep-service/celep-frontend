@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppBar from '@/components/AppBar.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
+import PostListContainer from '@/features/Post/components/PostListContainer.vue'
 </script>
 
 <template>
@@ -9,13 +10,13 @@ import ViewContainer from '@/components/ViewContainer.vue'
       <AppBar />
     </template>
 
-    <main class="home-view__main"></main>
+    <main class="home-view__main">
+      <PostListContainer />
+    </main>
   </ViewContainer>
 </template>
 
 <style scoped lang="scss">
 .home-view {
-  &__main {
-  }
 }
 </style>

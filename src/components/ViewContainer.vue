@@ -41,5 +41,6 @@ bottomTabBarStore.isActive = props.isActiveBottomTabBar
 .view-container__main-wrapper {
   flex: 1;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 </style>
