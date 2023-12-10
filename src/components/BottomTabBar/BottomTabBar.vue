@@ -55,7 +55,6 @@ const NAVIGATIONS: BottomTabBarNavigationProps[] = [
   align-items: center;
   width: 100%;
   height: var(--bottom-tab-bar-height);
-  padding-inline: 20px;
   background-color: rgba(var(--white));
   border-top: solid 1px rgba(var(--gray-300));
 }
