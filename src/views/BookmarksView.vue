@@ -8,7 +8,7 @@ import ViewContainer from '@/components/ViewContainer.vue'
     <template #app-bar>
       <AppBar />
     </template>
-    
+
     <main class="bookmarks-view__main"></main>
   </ViewContainer>
 </template>
