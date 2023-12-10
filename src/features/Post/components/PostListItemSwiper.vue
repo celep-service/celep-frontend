@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<Props>(), {})
   <Swiper
     :slidesPerView="'auto'"
     :centeredSlides="true"
-    :spaceBetween="40"
     :pagination="{
       clickable: true
     }"
@@ -75,9 +74,22 @@ const props = withDefaults(defineProps<Props>(), {})
 .post-list-item-swiper {
   width: 100%;
 
+  .swiper-wrapper {
+    position: relative;
+    right: calc(50vw - 110px);
+    padding-left: calc(50vw - 110px);
+  }
+
   .swiper-slide {
-    width: 200px;
+    width: 240px;
+    padding-inline: 20px;
     transition: opacity ease 0.5s;
+
+    &:first-child {
+      /* padding-left: calc(50vw - 100px); */
+      /* position: relative; */
+      /* right: calc(50vw - 120px); */
+    }
 
     &:not(.swiper-slide-active) {
       opacity: 0.2;
