@@ -11,8 +11,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /* Local State */
-const viewContainerHeight = computed(() =>
-  props.isActiveBottomTabBar ? 'calc(100vh - var(--bottom-tab-bar-height))' : '100vh'
+const paddingBottom = computed(() =>
+  props.isActiveBottomTabBar ? 'var(--bottom-tab-bar-height)' : '0'
 )
 
 /* Pinia */
@@ -32,14 +32,15 @@ bottomTabBarStore.isActive = props.isActiveBottomTabBar
 
 <style scoped>
 .view-container {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: v-bind(viewContainerHeight);
+  height: 100%;
+  overflow: hidden;
+  padding-top: var(--app-bar-height);
+  padding-bottom: v-bind(paddingBottom);
 }
 
 .view-container__main-wrapper {
-  flex: 1;
+  height: 100%;
   overflow-y: auto;
   scroll-behavior: smooth;
 }

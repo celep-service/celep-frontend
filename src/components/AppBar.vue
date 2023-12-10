@@ -81,10 +81,12 @@ const handleClickCloseButton = () => {
 <style scoped lang="scss">
 .app-bar {
   z-index: 1000;
-  position: relative;
+  position: fixed;
+  top: 0;
   display: flex;
   align-items: center;
-  flex-basis: 60px;
+  width: 100%;
+  height: var(--app-bar-height);
   background-color: rgba(var(--white));
   border-bottom: solid 1px rgba(var(--gray-200));
 
