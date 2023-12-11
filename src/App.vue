@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import BottomTabBar from '@/components/BottomTabBar/BottomTabBar.vue'
+import AlertDialog from '@/components/Common/AlertDialog.vue'
 import ConfirmDialog from '@/components/Common/ConfirmDialog.vue'
 import ToastMessage from '@/components/Common/ToastMessage.vue'
+import useAlertDialogStore from '@/composables/useAlertDialogStore'
 import useToastMessageStore from '@/composables/useToastMessageStore'
 import useBottomTabBarStore from '@/stores/useBottomTabBarStore'
 import useConfirmDialogStore from '@/stores/useConfirmDialogStore'
@@ -11,6 +13,7 @@ import { RouterView } from 'vue-router'
 /* Pinia */
 const { isActive: isActiveBottomTabBar } = storeToRefs(useBottomTabBarStore())
 const { isShow: isShowConfirmDialog } = storeToRefs(useConfirmDialogStore())
+const { dialogs: alertDialogs } = storeToRefs(useAlertDialogStore())
 const { messages: toastMessages } = storeToRefs(useToastMessageStore())
 </script>
 
@@ -25,6 +28,7 @@ const { messages: toastMessages } = storeToRefs(useToastMessageStore())
   <!-- Modal -->
   <Teleport to="body">
     <ConfirmDialog v-model:open="isShowConfirmDialog" />
+    <AlertDialog v-for="(body, index) in alertDialogs" :key="index" :body="body" />
     <div class="toast-messages">
       <ToastMessage
         v-for="({ state, body }, index) in toastMessages"
