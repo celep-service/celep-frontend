@@ -28,5 +28,10 @@ export default [
     path: '/login',
     name: 'login',
     component: () => import('@/views/LoginView.vue')
+  },
+  {
+    path: '/users/create',
+    name: 'users/create',
+    component: () => import('@/views/UsersCreateView.vue')
   }
 ]
