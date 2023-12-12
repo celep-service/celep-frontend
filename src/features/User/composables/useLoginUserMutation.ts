@@ -4,13 +4,13 @@ import useToastMessageStore from '@/composables/useToastMessageStore'
 import { ACCESS_TOKEN_KEY } from '@/constants/jwt'
 import type { LoginUserRequest } from '@/model/User'
 import { useMutation } from '@tanstack/vue-query'
+import type { AnyFn } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 
 /* Pinia */
 const { showToastMessage } = useToastMessageStore()
-const { showErrorAlertDialog } = useAlertDialogStore()
 
-const useLoginUserMutation = () => {
+const useLoginUserMutation = (onError: AnyFn) => {
   /* Router */
   const router = useRouter()
 
@@ -22,7 +22,7 @@ const useLoginUserMutation = () => {
       showToastMessage('로그인 되었습니다.', 'Success')
     },
     onError: (error) => {
-      showErrorAlertDialog(error)
+      onError(error)
     }
   })
 }
