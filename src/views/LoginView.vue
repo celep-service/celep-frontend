@@ -64,9 +64,9 @@ const handleClickLoginButton = () => {
       <form class="login-view__form">
         <BaseInput v-model="email" label="이메일" />
         <BaseInput v-model="password" label="비밀번호" type="password" />
-        <TextBody2 @click="handleClickGuestLink" weight="500" class="login-view__guest-link"
-          >게스트로 이용하기</TextBody2
-        >
+        <TextBody2 @click="handleClickGuestLink" weight="500" class="login-view__guest-link">
+          게스트로 이용하기
+        </TextBody2>
         <BaseButton
           @click.prevent="handleClickLoginButton"
           :is-loading="isLoading"
