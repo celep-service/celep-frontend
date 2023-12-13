@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TextCaption from '@/components/Text/TextCaption.vue'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 /* Props */
 interface Props {
@@ -8,10 +8,12 @@ interface Props {
   width?: string
   label: string
   type?: 'text' | 'password'
+  focus?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
-  type: 'text'
+  type: 'text',
+  focus: false
 })
 
 /* Emits */
@@ -21,6 +23,7 @@ interface Emits {
 const emits = defineEmits<Emits>()
 
 /* Local State */
+const inputRef = ref<HTMLInputElement>()
 const modelValue = computed({
   get() {
     return props.modelValue
@@ -29,12 +32,19 @@ const modelValue = computed({
     emits('update:modelValue', value)
   }
 })
+
+/* Hook */
+onMounted(() => {
+  if (props.focus) {
+    inputRef.value?.focus()
+  }
+})
 </script>
 
 <template>
   <div class="base-input-wrapper">
     <TextCaption class="base-input-label">{{ label }}</TextCaption>
-    <input v-model="modelValue" :type="type" class="base-input" />
+    <input ref="inputRef" v-model="modelValue" :type="type" class="base-input" />
   </div>
 </template>
 
@@ -68,6 +78,6 @@ const modelValue = computed({
 
 .base-input:focus {
   outline: none;
-  border-color: rgba(var(--gray-600))
+  border-color: rgba(var(--gray-600));
 }
 </style>

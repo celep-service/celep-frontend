@@ -62,7 +62,7 @@ const handleClickLoginButton = () => {
       <TextHero weight="650" class="login-view__logo">celep</TextHero>
 
       <form class="login-view__form">
-        <BaseInput v-model="email" label="이메일" />
+        <BaseInput v-model="email" label="이메일" :focus="true" />
         <BaseInput v-model="password" label="비밀번호" type="password" />
         <TextBody2 @click="handleClickGuestLink" weight="500" class="login-view__guest-link">
           게스트로 이용하기
