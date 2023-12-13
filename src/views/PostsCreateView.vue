@@ -4,7 +4,7 @@ import ViewContainer from '@/components/ViewContainer.vue'
 </script>
 
 <template>
-  <ViewContainer :is-active-bottom-tab-bar="false" class="posts-create-view">
+  <ViewContainer class="posts-create-view">
     <template #app-bar>
       <AppBar type="close" title="코디 추가" />
     </template>
