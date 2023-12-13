@@ -38,5 +38,9 @@ export default [
     path: '/users/create',
     name: 'users/create',
     component: () => import('@/views/UsersCreateView.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ] as RouteRecordRaw[]
