@@ -9,12 +9,13 @@ export default [
   {
     path: '/posts/search',
     name: 'posts/search',
+    meta: { inactiveBottomTabBar: true },
     component: () => import('@/views/PostsSearchView.vue')
   },
   {
     path: '/posts/create',
     name: 'posts/create',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
     component: () => import('@/views/PostsCreateView.vue')
   },
   {
@@ -32,11 +33,13 @@ export default [
   {
     path: '/login',
     name: 'login',
+    meta: { inactiveBottomTabBar: true },
     component: () => import('@/views/LoginView.vue')
   },
   {
     path: '/users/create',
     name: 'users/create',
+    meta: { inactiveBottomTabBar: true },
     component: () => import('@/views/UsersCreateView.vue')
   },
   {
