@@ -61,14 +61,14 @@ const handleClickLoginButton = () => {
     <main class="login-view__main">
       <TextHero weight="650" class="login-view__logo">celep</TextHero>
 
-      <div class="login-view__form">
-        <BaseInput v-model="email" label="이메일" />
+      <form class="login-view__form">
+        <BaseInput v-model="email" label="이메일" :focus="true" />
         <BaseInput v-model="password" label="비밀번호" type="password" />
-        <TextBody2 @click="handleClickGuestLink" weight="500" class="login-view__guest-link"
-          >게스트로 이용하기</TextBody2
-        >
+        <TextBody2 @click="handleClickGuestLink" weight="500" class="login-view__guest-link">
+          게스트로 이용하기
+        </TextBody2>
         <BaseButton
-          @click="handleClickLoginButton"
+          @click.prevent="handleClickLoginButton"
           :is-loading="isLoading"
           class="login-view__login-button"
         >
@@ -78,7 +78,7 @@ const handleClickLoginButton = () => {
         <TextBody2 v-if="warningMessage" class="login-view__warning-message">
           {{ warningMessage }}
         </TextBody2>
-      </div>
+      </form>
 
       <TextBody2 class="login-view__user-create-message">
         계정이 없으신가요?
