@@ -1,23 +1,15 @@
 <script setup lang="ts">
 import useBottomTabBarStore from '@/stores/useBottomTabBarStore'
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-/* Prop */
-interface Props {
-  isActiveBottomTabBar?: boolean
-}
-const props = withDefaults(defineProps<Props>(), {
-  isActiveBottomTabBar: true
-})
+/* Pinia */
+const { isActive: isActiveBottomTabBar } = storeToRefs(useBottomTabBarStore())
 
 /* Local State */
 const paddingBottom = computed(() =>
-  props.isActiveBottomTabBar ? 'var(--bottom-tab-bar-height)' : '0'
+  isActiveBottomTabBar.value ? 'var(--bottom-tab-bar-height)' : '0'
 )
-
-/* Pinia */
-const bottomTabBarStore = useBottomTabBarStore()
-bottomTabBarStore.isActive = props.isActiveBottomTabBar
 </script>
 
 <template>

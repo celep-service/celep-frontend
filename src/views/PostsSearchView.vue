@@ -4,7 +4,7 @@ import ViewContainer from '@/components/ViewContainer.vue'
 </script>
 
 <template>
-  <ViewContainer :is-active-bottom-tab-bar="false" class="posts-search-view">
+  <ViewContainer class="posts-search-view">
     <template #app-bar>
       <AppBar type='back' title="검색" />
     </template>

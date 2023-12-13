@@ -57,7 +57,7 @@ const handleClickLoginButton = () => {
 </script>
 
 <template>
-  <ViewContainer :is-active-bottom-tab-bar="false" class="login-view">
+  <ViewContainer class="login-view">
     <main class="login-view__main">
       <TextHero weight="650" class="login-view__logo">celep</TextHero>
 
