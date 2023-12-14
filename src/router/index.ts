@@ -21,6 +21,13 @@ router.beforeEach((to, _, next) => {
     return
   }
 
+  // 로그인 된 상태에서 접근 불가능한 페이지에 접근하는 경우 예외 처리
+  if (isAuthenticated() && (to.name === 'login' || to.name === 'users/create')) {
+    next('/')
+    showToastMessage('접근할 수 없습니다', 'Error')
+    return
+  }
+
   // route의 BottomTabBar 설정이 inactive인 경우 BottomTabBar를 비활성화
   isActiveBottomTabBar.value = to.meta.inactiveBottomTabBar ? false : true
 
