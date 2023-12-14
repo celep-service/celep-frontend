@@ -4,8 +4,10 @@ import BaseInput from '@/components/Base/BaseInput.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import TextHero from '@/components/Text/TextHero.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
+import { VALIDATE_MESSAGE } from '@/constants/validate'
 import useLoginUserMutation from '@/features/User/composables/useLoginUserMutation'
 import type { ApiErrorResponse } from '@/model/Api'
+import { isValidEmail } from '@/utils/validate'
 import axios from 'axios'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -31,14 +33,13 @@ const { mutate, isLoading } = useLoginUserMutation((error) => {
 
 /* Helper Function */
 const validate = () => {
-  const emailPatternRegex = /^.+@.+\..+$/
-  if (!emailPatternRegex.test(email.value)) {
-    warningMessage.value = '이메일을 형식에 맞게 입력해 주세요.'
+  if (!isValidEmail(email.value)) {
+    warningMessage.value = VALIDATE_MESSAGE.IS_INVALID_EMAIL
     return false
   }
 
   if (!password.value) {
-    warningMessage.value = '비밀번호를 입력해 주세요.'
+    warningMessage.value = VALIDATE_MESSAGE.EMPTY_PASSWORD
     return false
   }
 
