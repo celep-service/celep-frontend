@@ -7,7 +7,7 @@ interface Props {
   modelValue: string
   width?: string
   label: string
-  type?: 'text' | 'password'
+  type?: 'text' | 'email' | 'password'
   focus?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
