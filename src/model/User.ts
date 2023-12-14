@@ -18,3 +18,14 @@ export interface LoginUserTemplate {
 }
 
 export type LoginUserResponse = ApiResponse<LoginUserTemplate>
+
+export interface CreateUserRequest {
+  payload: {
+    email: string
+    name: string
+    password: string
+    gender: string
+  }
+}
+
+export type CreateUserResponse = ApiResponse<UserTemplate>

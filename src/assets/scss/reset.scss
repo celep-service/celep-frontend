@@ -142,4 +142,7 @@ body,
   height: 100%;
   overflow: hidden;
 }
-  
+
+input[type='radio'] {
+  margin: 0;
+}
