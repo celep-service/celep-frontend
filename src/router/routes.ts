@@ -13,10 +13,16 @@ export default [
     component: () => import('@/views/PostsSearchView.vue')
   },
   {
-    path: '/posts/create',
-    name: 'posts/create',
+    path: '/posts/create/celeb',
+    name: 'posts/create/celeb',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateView.vue')
+    component: () => import('@/views/PostsCreateCelebView.vue')
+  },
+  {
+    path: '/posts/create/title',
+    name: 'posts/create/title',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateTitleView.vue')
   },
   {
     path: '/bookmarks',
