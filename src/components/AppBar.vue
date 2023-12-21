@@ -39,7 +39,7 @@ const handleClickBackButton = () => {
 }
 
 const handleClickCloseButton = () => {
-  showConfirmDialog('정말 닫으시겠습니까?', goToPreviousView)
+  showConfirmDialog('정말 닫으시겠습니까?', goToHomeView)
 }
 </script>
 
