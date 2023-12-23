@@ -6,9 +6,10 @@ const useCreatePostStore = defineStore('createPost', () => {
   const celebId = ref<number>()
   const celebNameSearchKeyword = ref<string>()
   const title = ref<string>()
+  const codyImagePreviewUrl = ref<string>()
 
   /* Getter */
-
+  
   /* Action */
   const resetCelebId = () => {
     celebId.value = undefined
@@ -19,16 +20,21 @@ const useCreatePostStore = defineStore('createPost', () => {
   const resetTitle = () => {
     title.value = undefined
   }
+  const resetCodyImage = () => {
+    codyImagePreviewUrl.value = undefined
+  }
   const resetAllState = () => {
     resetCelebId()
     resetCelebNameSearchKeyword()
     resetTitle()
+    resetCodyImage()
   }
 
   return {
     celebId,
     celebNameSearchKeyword,
     title,
+    codyImagePreviewUrl,
     resetCelebId,
     resetAllState
   }

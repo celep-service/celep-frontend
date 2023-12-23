@@ -31,6 +31,12 @@ export default [
     component: () => import('@/views/PostsCreateCodyImageView.vue')
   },
   {
+    path: '/posts/create/clothes',
+    name: 'posts/create/clothes',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateClothesView.vue')
+  },
+  {
     path: '/bookmarks',
     name: 'bookmarks',
     meta: { requiresAuth: true },
