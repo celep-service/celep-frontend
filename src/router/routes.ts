@@ -25,6 +25,12 @@ export default [
     component: () => import('@/views/PostsCreateTitleView.vue')
   },
   {
+    path: '/posts/create/cody-image',
+    name: 'posts/create/cody-image',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateCodyImageView.vue')
+  },
+  {
     path: '/bookmarks',
     name: 'bookmarks',
     meta: { requiresAuth: true },
