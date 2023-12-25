@@ -1,4 +1,4 @@
-import type { GenderCode } from '@/model/Gender'
+import type { Gender } from '@/model/Gender'
 import type { TimeStampString } from '@/model/Time'
 
 export type ClothesCategoryCode = 'TOP' | 'BOTTOM' | 'OUTER' | 'SHOES' | 'BAG' | 'ACCESSORY'
@@ -10,7 +10,7 @@ export interface ClothesTemplate {
   name: string
   clothesCategory: ClothesCategoryCode
   brand: string
-  gender: GenderCode
+  gender: Gender
   imageUrl: string
   sellUrl: string
 }
