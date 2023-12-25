@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { BaseSelectOption } from '@/components/Base/BaseSelect.vue'
 import BaseSelect from '@/components/Base/BaseSelect.vue'
-import type { CelebCategoryCode } from '@/model/Celeb'
-import type { GenderCode } from '@/model/Gender'
+import type { CelebCategory, CelebCategoryCode } from '@/model/Celeb'
+import type { Gender, GenderCode } from '@/model/Gender'
 import { computed } from 'vue'
 
 /* Constant */
-const GENDER_OPTIONS: BaseSelectOption[] = [
+const GENDER_OPTIONS: BaseSelectOption<GenderCode, Gender>[] = [
   {
     value: 'MALE',
     label: '남성'
@@ -16,7 +16,7 @@ const GENDER_OPTIONS: BaseSelectOption[] = [
     label: '여성'
   }
 ]
-const CELEB_CATEGORY_OPTIONS: BaseSelectOption[] = [
+const CELEB_CATEGORY_OPTIONS: BaseSelectOption<CelebCategoryCode, CelebCategory>[] = [
   {
     value: 'TALENT',
     label: '탤런트'

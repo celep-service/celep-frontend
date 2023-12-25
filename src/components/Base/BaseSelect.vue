@@ -1,7 +1,7 @@
 <script lang="ts">
-export interface BaseSelectOption {
-  value: string
-  label: string
+export interface BaseSelectOption<TValue = string, TLabel = string> {
+  value: TValue
+  label: TLabel
 }
 </script>
 
