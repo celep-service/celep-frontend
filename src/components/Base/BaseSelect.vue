@@ -14,8 +14,13 @@ interface Props {
   modelValue: string | number | undefined
   options: BaseSelectOption[]
   placeholder?: string
+  color?: string
+  borderColor?: string
 }
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  color: 'var(--black)',
+  borderColor: 'var(--black)'
+})
 
 /* Emit */
 const emits = defineEmits(['update:modelValue'])
@@ -32,46 +37,45 @@ const value = computed({
 </script>
 
 <template>
-  <div class="base-select">
-    <select v-model="value">
+  <div class="base-select-wrapper">
+    <select v-model="value" class="base-select-wrapper__select">
       <option v-if="placeholder" :value="undefined">{{ placeholder }}</option>
       <option v-for="{ value, label } in options" :key="value" :value="value">{{ label }}</option>
     </select>
-    <BaseIcon name="expand_more" class="base-select__icon" />
+    <BaseIcon name="expand_more" class="base-select-wrapper__icon" />
   </div>
 </template>
 
-<style scoped lang="scss">
-.base-select {
+<style scoped>
+.base-select-wrapper {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 30px;
-  border: solid 1px black;
+  border: solid 1px rgba(v-bind(borderColor));
   border-radius: 30px;
+}
 
-  select {
-    z-index: 10;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding-inline: 10px 20px;
-    color: black;
-    background-color: transparent;
-    font-weight: 550;
-    appearance: none;
-    border: none;
-    border-radius: inherit;
+.base-select-wrapper__select {
+  z-index: 10;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-inline: 10px 20px;
+  background-color: transparent;
+  color: rgba(v-bind(color));
+  font-weight: 550;
+  appearance: none;
+  border: none;
+  border-radius: inherit;
+}
+.base-select-wrapper__select:focus {
+  outline: none;
+}
 
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__icon {
-    position: absolute;
-    right: 4px;
-  }
+.base-select-wrapper__icon {
+  position: absolute;
+  right: 4px;
 }
 </style>
