@@ -30,7 +30,7 @@ const validate = () => {
 /* Event Handler */
 const handleClickSelectCompleteButton = () => {
   if (validate()) {
-    router.push({ name: 'posts/create/title' })
+    router.push({ name: 'posts/create/gender' })
   }
 }
 </script>

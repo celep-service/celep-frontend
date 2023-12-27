@@ -1,26 +1,33 @@
 <script setup lang="ts">
 import AppBar from '@/components/AppBar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
-import BaseInput from '@/components/Base/BaseInput.vue'
+import BaseRadioGroup, { type BaseRadioGroupRadio } from '@/components/Base/BaseRadioGroup.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
 import useToastMessageStore from '@/composables/useToastMessageStore'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
+import type { Gender, GenderCode } from '@/model/Gender'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+
+/* Constant */
+const GENDER_RADIOS: BaseRadioGroupRadio<Gender, GenderCode>[] = [
+  { label: '남성', value: 'MALE' },
+  { label: '여성', value: 'FEMALE' }
+]
 
 /* Router */
 const router = useRouter()
 
 /* Pinia */
-const { title } = storeToRefs(useCreatePostStore())
+const { gender } = storeToRefs(useCreatePostStore())
 const { resetAllState } = useCreatePostStore()
 const { showToastMessage } = useToastMessageStore()
 
 /* Helper Function */
 const validate = () => {
-  if (!title.value) {
-    showToastMessage('코디 제목을 입력해 주세요.', 'Warning')
+  if (!gender.value) {
+    showToastMessage('성별을 선택해 주세요.', 'Warning')
     return false
   }
 
@@ -29,43 +36,48 @@ const validate = () => {
 
 /* Event Handler */
 const handleClickGoToPreviousButton = () => {
-  router.push({ name: 'posts/create/gender' })
+  router.push({ name: 'posts/create/celeb' })
 }
 const handleClickInputCompleteButton = () => {
   if (validate()) {
-    router.push({ name: 'posts/create/cody-image' })
+    router.push({ name: 'posts/create/title' })
   }
 }
 </script>
 
 <template>
-  <ViewContainer class="posts-create-title-view">
+  <ViewContainer class="posts-create-gender-view">
     <template #app-bar>
-      <AppBar type="close" title="코디 제목" :on-close="resetAllState" />
+      <AppBar type="close" title="성별" :on-close="resetAllState" />
     </template>
 
-    <main class="posts-create-title-view__main">
-      <TextHeading3 weight="550" class="posts-create-title-view__title">
-        코디 제목을 입력해 주세요
+    <main class="posts-create-gender-view__main">
+      <TextHeading3 weight="550" class="posts-create-gender-view__title">
+        코디에 맞는 성별을
+        <br />
+        선택해 주세요
       </TextHeading3>
 
-      <BaseInput
-        v-model="title"
-        label="코디 제목"
-        :focus="true"
-        class="posts-create-title-view__input"
+      <BaseRadioGroup
+        v-model="gender"
+        caption="성별"
+        :radios="GENDER_RADIOS"
+        class="posts-create-gender-view__radio-group"
       />
 
-      <div class="posts-create-title-view__buttons-wrapper">
+      <div class="posts-create-gender-view__buttons-wrapper">
         <BaseButton
           @click="handleClickGoToPreviousButton"
           type="outlined"
           textColor="var(--gray-400)"
-          class="posts-create-title-view__button"
+          class="posts-create-gender-view__button"
         >
           이전으로
         </BaseButton>
-        <BaseButton @click="handleClickInputCompleteButton" class="posts-create-title-view__button">
+        <BaseButton
+          @click="handleClickInputCompleteButton"
+          class="posts-create-gender-view__button"
+        >
           입력완료
         </BaseButton>
       </div>
@@ -74,7 +86,7 @@ const handleClickInputCompleteButton = () => {
 </template>
 
 <style scoped lang="scss">
-.posts-create-title-view {
+.posts-create-gender-view {
   &__main {
     display: flex;
     flex-direction: column;
@@ -88,7 +100,7 @@ const handleClickInputCompleteButton = () => {
     color: rgba(var(--zinc-800));
   }
 
-  &__input {
+  &__radio-group {
     width: 200px;
     margin-top: 50px;
   }

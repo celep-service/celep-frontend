@@ -19,6 +19,12 @@ export default [
     component: () => import('@/views/PostsCreateCelebView.vue')
   },
   {
+    path: '/posts/create/gender',
+    name: 'posts/create/gender',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateGenderView.vue')
+  },
+  {
     path: '/posts/create/title',
     name: 'posts/create/title',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
