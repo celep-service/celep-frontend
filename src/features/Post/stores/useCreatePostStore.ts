@@ -1,4 +1,6 @@
+import type { ClothesTemplate } from '@/model/Clothes'
 import type { GenderCode } from '@/model/Gender'
+import { isEmptyArray } from '@/utils/array'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -9,9 +11,9 @@ const useCreatePostStore = defineStore('createPost', () => {
   const gender = ref<GenderCode>('MALE')
   const title = ref<string>()
   const codyImagePreviewUrl = ref<string>()
+  const checkedClothesList = ref<ClothesTemplate[]>([])
+  const clothesNameSearchKeyword = ref<string>()
 
-  /* Getter */
-  
   /* Action */
   const resetCelebId = () => {
     celebId.value = undefined
@@ -28,12 +30,20 @@ const useCreatePostStore = defineStore('createPost', () => {
   const resetCodyImage = () => {
     codyImagePreviewUrl.value = undefined
   }
+  const resetCheckedClothesIdList = () => {
+    checkedClothesList.value = []
+  }
+  const resetClothesNameSearchKeyword = () => {
+    clothesNameSearchKeyword.value = undefined
+  }
   const resetAllState = () => {
     resetCelebId()
     resetCelebNameSearchKeyword()
     resetGender()
     resetTitle()
     resetCodyImage()
+    resetCheckedClothesIdList()
+    resetClothesNameSearchKeyword()
   }
 
   return {
@@ -42,6 +52,8 @@ const useCreatePostStore = defineStore('createPost', () => {
     gender,
     title,
     codyImagePreviewUrl,
+    checkedClothesList,
+    clothesNameSearchKeyword,
     resetCelebId,
     resetAllState
   }
