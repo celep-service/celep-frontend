@@ -1,7 +1,7 @@
 <script lang="ts">
-export interface BaseRadioGroupRadio {
-  label: string
-  value: string | number
+export interface BaseRadioGroupRadio<TLabel = string, TValue = string | number> {
+  label: TLabel
+  value: TValue
 }
 </script>
 
