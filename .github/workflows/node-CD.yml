@@ -24,6 +24,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+
+      - name: make .env, env.d.ts
+        run: |
+          mkdir ./env # env 폴더 생성
+          touch ./env/.env # .env 생성
+          echo "${{ secrets.ENV }}" > ./env/.env
+          touch ./env/env.d.ts # env.d.ts 생성
+          echo "${{ secrets.ENV_TYPE }}" > ./env/env.d.ts
+        shell: bash
+
       - run: npm install
       - run: npm run build
 
