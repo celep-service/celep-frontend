@@ -31,4 +31,4 @@ coverage
 template
 
 # environment variables
-env
+env/.env
