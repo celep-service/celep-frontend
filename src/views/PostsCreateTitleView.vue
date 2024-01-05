@@ -4,7 +4,6 @@ import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
-import useToastMessageStore from '@/composables/useToastMessageStore'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -14,25 +13,14 @@ const router = useRouter()
 
 /* Pinia */
 const { title } = storeToRefs(useCreatePostStore())
-const { resetAllState } = useCreatePostStore()
-const { showToastMessage } = useToastMessageStore()
-
-/* Helper Function */
-const validate = () => {
-  if (!title.value) {
-    showToastMessage('코디 제목을 입력해 주세요.', 'Warning')
-    return false
-  }
-
-  return true
-}
+const { resetAllState, validateTitle } = useCreatePostStore()
 
 /* Event Handler */
 const handleClickGoToPreviousButton = () => {
   router.push({ name: 'posts/create/gender' })
 }
 const handleClickInputCompleteButton = () => {
-  if (validate()) {
+  if (validateTitle()) {
     router.push({ name: 'posts/create/cody-image' })
   }
 }

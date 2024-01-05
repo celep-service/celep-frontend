@@ -13,23 +13,11 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 /* Pinia */
-const { celebId } = storeToRefs(useCreatePostStore())
-const { resetAllState } = (useCreatePostStore())
-const { showToastMessage } = useToastMessageStore()
-
-/* Helper Function */
-const validate = () => {
-  if (!celebId.value) {
-    showToastMessage('셀럽을 선택해 주세요.', 'Warning')
-    return false
-  }
-
-  return true
-}
+const { resetAllState, validateCelebId } = (useCreatePostStore())
 
 /* Event Handler */
 const handleClickSelectCompleteButton = () => {
-  if (validate()) {
+  if (validateCelebId()) {
     router.push({ name: 'posts/create/gender' })
   }
 }

@@ -5,7 +5,6 @@ import BaseIcon from '@/components/Base/BaseIcon.vue'
 import TextBody1 from '@/components/Text/TextBody1.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
-import useToastMessageStore from '@/composables/useToastMessageStore'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -14,35 +13,27 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 /* Pinia */
-const { codyImagePreviewUrl } = storeToRefs(useCreatePostStore())
-const { resetAllState } = useCreatePostStore()
-const { showToastMessage } = useToastMessageStore()
-
-/* Helper Function */
-const validate = () => {
-  if (!codyImagePreviewUrl.value) {
-    showToastMessage('코디 사진을 선택해 주세요.', 'Warning')
-    return false
-  }
-
-  return true
-}
+const { codyImageFile, codyImagePreviewUrl } = storeToRefs(useCreatePostStore())
+const { resetAllState, validateCodyImage } = useCreatePostStore()
 
 /* Event Handler */
 const handleImageChange = (event: Event) => {
   const reader = new FileReader()
+  const imageFile = (event.target as HTMLInputElement).files![0]
+
+  codyImageFile.value = imageFile
 
   reader.onload = (event) => {
     codyImagePreviewUrl.value = event.target!.result as string
   }
 
-  reader.readAsDataURL((event.target as HTMLInputElement).files![0])
+  reader.readAsDataURL(imageFile)
 }
 const handleClickGoToPreviousButton = () => {
   router.push({ name: 'posts/create/title' })
 }
 const handleClickInputCompleteButton = () => {
-  if (validate()) {
+  if (validateCodyImage()) {
     router.push({ name: 'posts/create/clothes' })
   }
 }

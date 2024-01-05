@@ -4,7 +4,6 @@ import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseRadioGroup, { type BaseRadioGroupRadio } from '@/components/Base/BaseRadioGroup.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
-import useToastMessageStore from '@/composables/useToastMessageStore'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import type { Gender, GenderCode } from '@/model/Gender'
 import { storeToRefs } from 'pinia'
@@ -21,25 +20,14 @@ const router = useRouter()
 
 /* Pinia */
 const { gender } = storeToRefs(useCreatePostStore())
-const { resetAllState } = useCreatePostStore()
-const { showToastMessage } = useToastMessageStore()
-
-/* Helper Function */
-const validate = () => {
-  if (!gender.value) {
-    showToastMessage('성별을 선택해 주세요.', 'Warning')
-    return false
-  }
-
-  return true
-}
+const { resetAllState, validateGender } = useCreatePostStore()
 
 /* Event Handler */
 const handleClickGoToPreviousButton = () => {
   router.push({ name: 'posts/create/celeb' })
 }
 const handleClickInputCompleteButton = () => {
-  if (validate()) {
+  if (validateGender()) {
     router.push({ name: 'posts/create/title' })
   }
 }
