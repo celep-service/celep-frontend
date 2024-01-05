@@ -31,3 +31,13 @@ export interface PostTemplate {
 }
 
 export type PostsResponse = Pagination<PostTemplate>
+
+export interface CreatePostRequest {
+  payload: {
+    title: string
+    clothesIdList: number[]
+    imageUrl: string
+    celebId: number
+    gender: GenderCode
+  }
+}

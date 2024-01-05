@@ -3,39 +3,54 @@ import AppBar from '@/components/AppBar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
-import useToastMessageStore from '@/composables/useToastMessageStore'
+import useAlertDialogStore from '@/composables/useAlertDialogStore'
+import { FirebaseStorageUploadError } from '@/error'
 import ClothesSelectListContainer from '@/features/Clothes/components/ClothesSelectListContainer.vue'
+import useCreatePostMutation from '@/features/Post/composables/useCreatePostMutation'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
-import { isEmptyArray } from '@/utils/array'
+import uploadFile from '@/firebase/uploadFile'
+import { getDownloadURL } from 'firebase/storage'
 import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 /* Router */
 const router = useRouter()
 
 /* Pinia */
-const { checkedClothesList } = storeToRefs(useCreatePostStore())
-const { resetAllState } = useCreatePostStore()
-const { showToastMessage } = useToastMessageStore()
+const { codyImageFile, uploadedCodyImageUrl, payload } = storeToRefs(useCreatePostStore())
+const { resetAllState, validateAll } = useCreatePostStore()
+const { showAlertDialog } = useAlertDialogStore()
 
-/* Helper Function */
-const validate = () => {
-  if (isEmptyArray(checkedClothesList.value)) {
-    showToastMessage('의류나 악세사리를 선택해 주세요.', 'Warning')
-    return false
-  }
+/* Vue Query */
+const { mutateAsync, isLoading: isLoadingCreatePost } = useCreatePostMutation()
 
-  return true
-}
+/* Local State */
+const isLoadingUploadFile = ref(false)
+const isLoading = computed(() => isLoadingUploadFile.value || isLoadingCreatePost.value)
 
 /* Event Handler */
 const handleClickGoToPreviousButton = () => {
   router.push({ name: 'posts/create/cody-image' })
 }
-const handleClickInputCompleteButton = () => {
-  if (validate()) {
-    // TODO: payload validate, Firebase Storage Image Upload, CreatePostMutate 로직 추가
-    return
+const handleClickInputCompleteButton = async () => {
+  if (!validateAll()) return
+
+  try {
+    isLoadingUploadFile.value = true
+    
+    const codyImageFileName = crypto.randomUUID()
+    const uploadedFile = await uploadFile(codyImageFile.value!, codyImageFileName)
+
+    uploadedCodyImageUrl.value = await getDownloadURL(uploadedFile.ref)
+    isLoadingUploadFile.value = false
+
+    await mutateAsync(payload.value)
+  } catch (error) {
+    if (error instanceof FirebaseStorageUploadError) {
+      showAlertDialog('[이미지 업로드 에러] 관리자에게 문의해 주세요.')
+      isLoadingUploadFile.value = false
+    }
   }
 }
 </script>
@@ -67,6 +82,7 @@ const handleClickInputCompleteButton = () => {
         <BaseButton
           @click="handleClickInputCompleteButton"
           class="posts-create-clothes-view__button"
+          :is-loading="isLoading"
         >
           입력완료
         </BaseButton>
