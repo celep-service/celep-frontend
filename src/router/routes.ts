@@ -13,10 +13,34 @@ export default [
     component: () => import('@/views/PostsSearchView.vue')
   },
   {
-    path: '/posts/create',
-    name: 'posts/create',
+    path: '/posts/create/celeb',
+    name: 'posts/create/celeb',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateView.vue')
+    component: () => import('@/views/PostsCreateCelebView.vue')
+  },
+  {
+    path: '/posts/create/gender',
+    name: 'posts/create/gender',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateGenderView.vue')
+  },
+  {
+    path: '/posts/create/title',
+    name: 'posts/create/title',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateTitleView.vue')
+  },
+  {
+    path: '/posts/create/cody-image',
+    name: 'posts/create/cody-image',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateCodyImageView.vue')
+  },
+  {
+    path: '/posts/create/clothes',
+    name: 'posts/create/clothes',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/PostsCreateClothesView.vue')
   },
   {
     path: '/bookmarks',

@@ -1,3 +1,4 @@
+import type { Pagination, PaginationQueryParams } from '@/model/Pagination'
 import type { TimeStampString } from '@/model/Time'
 
 export type CelebCategoryCode = 'TALENT' | 'MODEL' | 'SINGER' | 'ACTOR' | 'INFLUENCER' | 'ETC'
@@ -11,3 +12,12 @@ export interface CelebTemplate {
   createdAt: TimeStampString
   updatedAt: TimeStampString
 }
+
+export type CelebsRequest = {
+  queryParams: PaginationQueryParams & {
+    celebCategory?: CelebCategoryCode
+    search?: string
+  }
+}
+
+export type CelebsResponse = Pagination<CelebTemplate>

@@ -1,24 +1,27 @@
 <script setup lang="ts">
 import TextCaption from '@/components/Text/TextCaption.vue'
+import { useDebounceFn } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 
 /* Props */
 interface Props {
-  modelValue: string
+  modelValue?: string
   width?: string
   label: string
   type?: 'text' | 'email' | 'password'
   focus?: boolean
+  debounce?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
   type: 'text',
-  focus: false
+  focus: false,
+  debounce: false
 })
 
 /* Emits */
 interface Emits {
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value?: string): void
 }
 const emits = defineEmits<Emits>()
 
@@ -33,6 +36,14 @@ const modelValue = computed({
   }
 })
 
+/* Event Handler */
+const handleInput = useDebounceFn(
+  (event: Event) => {
+    modelValue.value = (event.target as HTMLInputElement).value
+  },
+  props.debounce ? 250 : 1
+)
+
 /* Hook */
 onMounted(() => {
   if (props.focus) {
@@ -44,7 +55,13 @@ onMounted(() => {
 <template>
   <div class="base-input-wrapper">
     <TextCaption class="base-input-label">{{ label }}</TextCaption>
-    <input ref="inputRef" v-model="modelValue" :type="type" class="base-input" />
+    <input
+      ref="inputRef"
+      @input="handleInput"
+      :value="modelValue"
+      :type="type"
+      class="base-input"
+    />
   </div>
 </template>
 

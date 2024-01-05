@@ -3,12 +3,14 @@ import IconButton from '@/components/Common/IconButton.vue'
 import TextHeading2 from '@/components/Text/TextHeading2.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import useConfirmDialogStore from '@/stores/useConfirmDialogStore'
+import type { AnyFn } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 
 /* Prop */
 interface Props {
   type?: 'logo' | 'back' | 'close'
   title?: string
+  onClose?: AnyFn
 }
 const props = withDefaults(defineProps<Props>(), {
   type: 'logo'
@@ -39,7 +41,10 @@ const handleClickBackButton = () => {
 }
 
 const handleClickCloseButton = () => {
-  showConfirmDialog('정말 닫으시겠습니까?', goToPreviousView)
+  showConfirmDialog('정말 닫으시겠습니까?', () => {
+    props.onClose?.()
+    goToHomeView()
+  })
 }
 </script>
 

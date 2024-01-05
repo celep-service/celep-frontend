@@ -17,7 +17,7 @@ const NAVIGATIONS: BottomTabBarNavigationProps[] = [
   },
   {
     iconName: 'add_box',
-    routeName: 'posts/create',
+    routeName: 'posts/create/celeb',
     text: '코디 추가'
   },
   {

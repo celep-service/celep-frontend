@@ -1,6 +1,6 @@
 import type { CelebCategoryCode, CelebTemplate } from '@/model/Celeb'
 import type { ClothesTemplate } from '@/model/Clothes'
-import type { GenderCode } from '@/model/Gender'
+import type { Gender, GenderCode } from '@/model/Gender'
 import type { Pagination, PaginationQueryParams } from '@/model/Pagination'
 import type { TimeStampString } from '@/model/Time'
 import type { UserTemplate } from '@/model/User'
@@ -27,7 +27,17 @@ export interface PostTemplate {
   }[]
   commentCount: number
   userDto: UserTemplate
-  gender: GenderCode
+  gender: Gender
 }
 
 export type PostsResponse = Pagination<PostTemplate>
+
+export interface CreatePostRequest {
+  payload: {
+    title: string
+    clothesIdList: number[]
+    imageUrl: string
+    celebId: number
+    gender: GenderCode
+  }
+}

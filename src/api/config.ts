@@ -1,10 +1,10 @@
 import useToastMessageStore from '@/composables/useToastMessageStore'
+import { API_SERVER_URL } from '@/constants/api'
 import { ACCESS_TOKEN_KEY } from '@/constants/jwt'
 import type { ApiErrorResponse } from '@/model/Api'
 import router from '@/router'
 import axios, { isAxiosError } from 'axios'
 
-const API_SERVER_URL = import.meta.env.VITE_API_SERVER_URL
 const IS_DEV = import.meta.env.DEV
 
 const axiosInstance = axios.create({

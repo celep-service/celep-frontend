@@ -1,4 +1,4 @@
-import { fetchPosts } from '@/api/posts'
+import { fetchPosts } from '@/api/post'
 import type { PostsRequest } from '@/model/Post'
 import { useInfiniteQuery } from '@tanstack/vue-query'
 import type { ComputedRef } from 'vue'

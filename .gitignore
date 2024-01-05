@@ -29,3 +29,6 @@ coverage
 
 # local template code
 template
+
+# environment variables
+env
