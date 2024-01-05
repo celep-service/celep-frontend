@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/config'
-import type { PostsRequest, PostsResponse } from '@/model/Post'
+import type { CreatePostRequest, PostsRequest, PostsResponse } from '@/model/Post'
 
 export const fetchPosts = async (req?: PostsRequest, pageParam?: number) =>
   (
@@ -10,3 +10,6 @@ export const fetchPosts = async (req?: PostsRequest, pageParam?: number) =>
       }
     })
   ).data
+
+export const createPost = async ({ payload }: CreatePostRequest) =>
+  (await axiosInstance.post('/posts', payload)).data
