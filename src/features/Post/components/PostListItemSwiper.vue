@@ -16,6 +16,11 @@ interface Props {
   clothesList: ClothesTemplate[]
 }
 const props = withDefaults(defineProps<Props>(), {})
+
+/* Helper Function */
+const convertBackgroundImageUrlString = (url: string) => {
+  return `url(${url})`
+}
 </script>
 
 <template>
@@ -29,9 +34,10 @@ const props = withDefaults(defineProps<Props>(), {})
     class="post-list-item-swiper"
   >
     <SwiperSlide>
-      <div class="post-list-item-swiper__cody-image-wrapper">
-        <img :src="postImageUrl" class="post-list-item-swiper__cody-image" />
-      </div>
+      <div
+        :style="{ backgroundImage: convertBackgroundImageUrlString(postImageUrl) }"
+        class="post-list-item-swiper__cody-image"
+      ></div>
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
           <BaseChip
@@ -47,9 +53,10 @@ const props = withDefaults(defineProps<Props>(), {})
     </SwiperSlide>
 
     <SwiperSlide v-for="clothes in clothesList" :key="clothes.id">
-      <div class="post-list-item-swiper__cody-image-wrapper">
-        <img :src="clothes.imageUrl" class="post-list-item-swiper__cody-image" />
-      </div>
+      <div
+        :style="{ backgroundImage: convertBackgroundImageUrlString(clothes.imageUrl) }"
+        class="post-list-item-swiper__cody-image"
+      ></div>
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
           <BaseChip
@@ -91,7 +98,7 @@ const props = withDefaults(defineProps<Props>(), {})
     transition: opacity ease 0.5s;
 
     &:not(.swiper-slide-active) {
-      .post-list-item-swiper__cody-image-wrapper {
+      .post-list-item-swiper__cody-image {
         opacity: 0.2;
       }
 
@@ -105,17 +112,13 @@ const props = withDefaults(defineProps<Props>(), {})
     }
   }
 
-  &__cody-image-wrapper {
+  &__cody-image {
     width: 200px;
     height: 200px;
     background-color: rgba(var(--gray-200));
-    overflow: hidden;
-  }
-
-  &__cody-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   &__info-wrapper {
