@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import BaseChip from '@/components/Base/BaseChip.vue'
 import BaseIcon from '@/components/Base/BaseIcon.vue'
-import TextBody1 from '@/components/Text/TextBody1.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import type { ClothesTemplate } from '@/model/Clothes'
 import 'swiper/css'
@@ -30,7 +29,9 @@ const props = withDefaults(defineProps<Props>(), {})
     class="post-list-item-swiper"
   >
     <SwiperSlide>
-      <img :src="postImageUrl" class="post-list-item-swiper__cody-image" />
+      <div class="post-list-item-swiper__cody-image-wrapper">
+        <img :src="postImageUrl" class="post-list-item-swiper__cody-image" />
+      </div>
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
           <BaseChip
@@ -46,7 +47,9 @@ const props = withDefaults(defineProps<Props>(), {})
     </SwiperSlide>
 
     <SwiperSlide v-for="clothes in clothesList" :key="clothes.id">
-      <img :src="clothes.imageUrl" class="post-list-item-swiper__cody-image" />
+      <div class="post-list-item-swiper__cody-image-wrapper">
+        <img :src="clothes.imageUrl" class="post-list-item-swiper__cody-image" />
+      </div>
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
           <BaseChip
@@ -56,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {})
             :text="clothes.brand"
             class="post-list-item-swiper__chip"
           />
-          <TextBody2 weight="500"  class="post-list-item-swiper__name">{{ clothes.name }}</TextBody2>
+          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ clothes.name }}</TextBody2>
         </div>
         <a
           v-if="clothes.sellUrl"
@@ -88,7 +91,7 @@ const props = withDefaults(defineProps<Props>(), {})
     transition: opacity ease 0.5s;
 
     &:not(.swiper-slide-active) {
-      .post-list-item-swiper__cody-image {
+      .post-list-item-swiper__cody-image-wrapper {
         opacity: 0.2;
       }
 
@@ -102,10 +105,17 @@ const props = withDefaults(defineProps<Props>(), {})
     }
   }
 
-  &__cody-image {
+  &__cody-image-wrapper {
     width: 200px;
     height: 200px;
     background-color: rgba(var(--gray-200));
+    overflow: hidden;
+  }
+
+  &__cody-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &__info-wrapper {
@@ -124,7 +134,7 @@ const props = withDefaults(defineProps<Props>(), {})
     padding: 8px;
   }
 
-  &__chip{
+  &__chip {
     word-break: keep-all;
     text-align: center;
     height: fit-content;
@@ -132,7 +142,7 @@ const props = withDefaults(defineProps<Props>(), {})
     line-height: 1.2;
   }
 
-  &__name{
+  &__name {
     word-break: keep-all;
   }
 
