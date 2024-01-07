@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseIcon from '@/components/Base/BaseIcon.vue'
 import TextBody1 from '@/components/Text/TextBody1.vue'
+import TextBody2 from '@/components/Text/TextBody2.vue'
 import PostListItemSwiper from '@/features/Post/components/PostListItemSwiper.vue'
 import type { PostTemplate } from '@/model/Post'
 
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {})
       <div class="post-list-item__user-avatar">
         <BaseIcon name="person" opsz="18" fill="1" class="post-list-item__user-avatar-icon" />
       </div>
-      <TextBody1 weight="500">{{ post.userDto.name }}</TextBody1>
+      <TextBody2 weight="500">{{ post.userDto.name }}</TextBody2>
     </div>
 
     <PostListItemSwiper
