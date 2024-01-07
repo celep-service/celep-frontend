@@ -48,6 +48,8 @@ const handleClickInputCompleteButton = () => {
     <main class="posts-create-cody-image-view__main">
       <TextHeading3 weight="550" class="posts-create-cody-image-view__title">
         코디 사진을 선택해 주세요
+        <br />
+        (정방형 사진)
       </TextHeading3>
 
       <label id="image-file" class="posts-create-cody-image-view__image-upload-wrapper">
