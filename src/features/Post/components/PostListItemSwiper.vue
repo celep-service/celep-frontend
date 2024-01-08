@@ -7,6 +7,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { computed } from 'vue'
 
 /* Prop */
 interface Props {
@@ -16,6 +17,35 @@ interface Props {
   clothesList: ClothesTemplate[]
 }
 const props = withDefaults(defineProps<Props>(), {})
+
+/* Local State */
+interface DataTemplate {
+  id?: number
+  title: string
+  imageUrl: string
+  chipText: string
+  sellUrl?: string
+}
+const codyData = computed<DataTemplate>(() => ({
+  title: props.postTitle,
+  imageUrl: props.postImageUrl,
+  chipText: props.celebName
+}))
+const clothesListData = computed<DataTemplate[]>(() =>
+  props.clothesList.map((clothes) => ({
+    id: clothes.id,
+    title: clothes.name,
+    imageUrl: clothes.imageUrl,
+    chipText: clothes.brand,
+    sellUrl: clothes.sellUrl
+  }))
+)
+const data = computed(() => [codyData.value, ...clothesListData.value])
+
+/* Helper Function */
+const convertBackgroundImageUrlString = (url: string) => {
+  return `url(${url})`
+}
 </script>
 
 <template>
@@ -28,43 +58,28 @@ const props = withDefaults(defineProps<Props>(), {})
     :modules="[Pagination]"
     class="post-list-item-swiper"
   >
-    <SwiperSlide>
-      <div class="post-list-item-swiper__cody-image-wrapper">
-        <img :src="postImageUrl" class="post-list-item-swiper__cody-image" />
-      </div>
-      <div class="post-list-item-swiper__info-wrapper">
-        <div class="post-list-item-swiper__full-name">
-          <BaseChip
-            type="outlined"
-            textColor="var(--indigo-600)"
-            borderColor="var(--indigo-400)"
-            :text="celebName"
-            class="post-list-item-swiper__chip"
-          />
-          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ postTitle }}</TextBody2>
-        </div>
-      </div>
-    </SwiperSlide>
+    <SwiperSlide v-for="item in data" :key="item.id">
+      <div
+        :style="{ backgroundImage: convertBackgroundImageUrlString(item.imageUrl) }"
+        class="post-list-item-swiper__cody-image"
+      ></div>
 
-    <SwiperSlide v-for="clothes in clothesList" :key="clothes.id">
-      <div class="post-list-item-swiper__cody-image-wrapper">
-        <img :src="clothes.imageUrl" class="post-list-item-swiper__cody-image" />
-      </div>
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
           <BaseChip
             type="outlined"
             textColor="var(--gray-600)"
             borderColor="var(--gray-400)"
-            :text="clothes.brand"
+            :text="item.chipText"
             class="post-list-item-swiper__chip"
           />
-          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ clothes.name }}</TextBody2>
+          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ item.title }}</TextBody2>
         </div>
+
         <a
-          v-if="clothes.sellUrl"
+          v-if="item.sellUrl"
           class="post-list-item-swiper__purchase-button"
-          :href="clothes.sellUrl"
+          :href="item.sellUrl"
           target="_blank"
         >
           <TextBody2 weight="500">구매하러 가기</TextBody2>
@@ -77,22 +92,27 @@ const props = withDefaults(defineProps<Props>(), {})
 
 <style lang="scss">
 .post-list-item-swiper {
+  /* Local Variable */
+  $image-width: 200px;
+  $image-margin-inline: calc((100vw - $image-width) / 2);
+  $slide-padding-inline: 20px;
+  $slide-width: calc($image-width + 2 * $slide-padding-inline);
+  $slide-margin-inline: calc((100vw - $slide-width) / 2);
+
   width: 100%;
 
   .swiper-wrapper {
     position: relative;
-    right: calc(50vw - 110px);
-    padding-left: calc(50vw - 110px);
   }
 
   .swiper-slide {
-    width: 240px;
-    padding-inline: 20px;
+    width: $slide-width;
+    padding-inline: $slide-padding-inline;
     transition: opacity ease 0.5s;
 
     &:not(.swiper-slide-active) {
-      .post-list-item-swiper__cody-image-wrapper {
-        opacity: 0.2;
+      opacity: 0.2;
+      .post-list-item-swiper__cody-image {
       }
 
       .post-list-item-swiper__info-wrapper {
@@ -105,22 +125,18 @@ const props = withDefaults(defineProps<Props>(), {})
     }
   }
 
-  &__cody-image-wrapper {
-    width: 200px;
-    height: 200px;
-    background-color: rgba(var(--gray-200));
-    overflow: hidden;
-  }
-
   &__cody-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: $image-width;
+    aspect-ratio: 1;
+    background-color: rgba(var(--gray-200));
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   &__info-wrapper {
     position: relative;
-    transform: translateX(calc(100px - 50vw));
+    right: $image-margin-inline;
     display: flex;
     flex-direction: column;
     width: 100vw;
