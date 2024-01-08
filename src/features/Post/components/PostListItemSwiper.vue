@@ -92,22 +92,27 @@ const convertBackgroundImageUrlString = (url: string) => {
 
 <style lang="scss">
 .post-list-item-swiper {
+  /* Local Variable */
+  $image-width: 200px;
+  $image-margin-inline: calc((100vw - $image-width) / 2);
+  $slide-padding-inline: 20px;
+  $slide-width: calc($image-width + 2 * $slide-padding-inline);
+  $slide-margin-inline: calc((100vw - $slide-width) / 2);
+
   width: 100%;
 
   .swiper-wrapper {
     position: relative;
-    right: calc(50vw - 110px);
-    padding-left: calc(50vw - 110px);
   }
 
   .swiper-slide {
-    width: 240px;
-    padding-inline: 20px;
+    width: $slide-width;
+    padding-inline: $slide-padding-inline;
     transition: opacity ease 0.5s;
 
     &:not(.swiper-slide-active) {
+      opacity: 0.2;
       .post-list-item-swiper__cody-image {
-        opacity: 0.2;
       }
 
       .post-list-item-swiper__info-wrapper {
@@ -121,8 +126,8 @@ const convertBackgroundImageUrlString = (url: string) => {
   }
 
   &__cody-image {
-    width: 200px;
-    height: 200px;
+    width: $image-width;
+    aspect-ratio: 1;
     background-color: rgba(var(--gray-200));
     background-size: cover;
     background-repeat: no-repeat;
@@ -131,7 +136,7 @@ const convertBackgroundImageUrlString = (url: string) => {
 
   &__info-wrapper {
     position: relative;
-    transform: translateX(calc(100px - 50vw));
+    right: $image-margin-inline;
     display: flex;
     flex-direction: column;
     width: 100vw;
