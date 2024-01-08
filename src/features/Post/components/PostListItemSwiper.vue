@@ -7,6 +7,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { computed } from 'vue'
 
 /* Prop */
 interface Props {
@@ -16,6 +17,30 @@ interface Props {
   clothesList: ClothesTemplate[]
 }
 const props = withDefaults(defineProps<Props>(), {})
+
+/* Local State */
+interface DataTemplate {
+  id?: number
+  title: string
+  imageUrl: string
+  chipText: string
+  sellUrl?: string
+}
+const codyData = computed<DataTemplate>(() => ({
+  title: props.postTitle,
+  imageUrl: props.postImageUrl,
+  chipText: props.celebName
+}))
+const clothesListData = computed<DataTemplate[]>(() =>
+  props.clothesList.map((clothes) => ({
+    id: clothes.id,
+    title: clothes.name,
+    imageUrl: clothes.imageUrl,
+    chipText: clothes.brand,
+    sellUrl: clothes.sellUrl
+  }))
+)
+const data = computed(() => [codyData.value, ...clothesListData.value])
 
 /* Helper Function */
 const convertBackgroundImageUrlString = (url: string) => {
@@ -33,45 +58,28 @@ const convertBackgroundImageUrlString = (url: string) => {
     :modules="[Pagination]"
     class="post-list-item-swiper"
   >
-    <SwiperSlide>
+    <SwiperSlide v-for="item in data" :key="item.id">
       <div
-        :style="{ backgroundImage: convertBackgroundImageUrlString(postImageUrl) }"
+        :style="{ backgroundImage: convertBackgroundImageUrlString(item.imageUrl) }"
         class="post-list-item-swiper__cody-image"
       ></div>
-      <div class="post-list-item-swiper__info-wrapper">
-        <div class="post-list-item-swiper__full-name">
-          <BaseChip
-            type="outlined"
-            textColor="var(--indigo-600)"
-            borderColor="var(--indigo-400)"
-            :text="celebName"
-            class="post-list-item-swiper__chip"
-          />
-          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ postTitle }}</TextBody2>
-        </div>
-      </div>
-    </SwiperSlide>
 
-    <SwiperSlide v-for="clothes in clothesList" :key="clothes.id">
-      <div
-        :style="{ backgroundImage: convertBackgroundImageUrlString(clothes.imageUrl) }"
-        class="post-list-item-swiper__cody-image"
-      ></div>
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
           <BaseChip
             type="outlined"
             textColor="var(--gray-600)"
             borderColor="var(--gray-400)"
-            :text="clothes.brand"
+            :text="item.chipText"
             class="post-list-item-swiper__chip"
           />
-          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ clothes.name }}</TextBody2>
+          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ item.title }}</TextBody2>
         </div>
+
         <a
-          v-if="clothes.sellUrl"
+          v-if="item.sellUrl"
           class="post-list-item-swiper__purchase-button"
-          :href="clothes.sellUrl"
+          :href="item.sellUrl"
           target="_blank"
         >
           <TextBody2 weight="500">구매하러 가기</TextBody2>
