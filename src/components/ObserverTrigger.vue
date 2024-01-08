@@ -39,6 +39,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .observer-trigger {
-  height: 1px;
+  height: 10px;
 }
 </style>
