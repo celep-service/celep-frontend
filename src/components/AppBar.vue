@@ -62,9 +62,11 @@ const handleClickCloseButton = () => {
     <IconButton
       v-if="props.type === 'back'"
       @click="handleClickBackButton"
-      name="arrow_back_ios_new"
-      wght="500"
-      opsz="20"
+      :icon-option="{
+        name: 'arrow_back_ios_new',
+        wght: '500',
+        opsz: '20'
+      }"
       class="app-bar__back-button"
     />
 
@@ -75,9 +77,11 @@ const handleClickCloseButton = () => {
     <IconButton
       v-if="props.type === 'close'"
       @click="handleClickCloseButton"
-      name="close"
-      wght="500"
-      opsz="24"
+      :icon-option="{
+        name: 'close',
+        wght: '500',
+        opsz: '24'
+      }"
       class="app-bar__close-button"
     />
   </header>

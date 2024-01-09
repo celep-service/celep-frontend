@@ -1,16 +1,19 @@
-<script setup lang="ts">
-import AppSpinner from '@/components/Common/AppSpinner.vue'
-import { computed } from 'vue'
-
-/* Prop */
-interface Props {
+<script lang="ts">
+export interface BaseButtonProps {
   backgroundColor?: string
   textColor?: string
   type?: 'filled' | 'outlined' | 'text'
   disabled?: boolean
   isLoading?: boolean
 }
-const props = withDefaults(defineProps<Props>(), {
+</script>
+
+<script setup lang="ts">
+import AppSpinner from '@/components/Common/AppSpinner.vue'
+import { computed } from 'vue'
+
+/* Prop */
+const props = withDefaults(defineProps<BaseButtonProps>(), {
   type: 'filled',
   disabled: false,
   isLoading: false

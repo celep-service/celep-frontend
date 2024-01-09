@@ -63,9 +63,11 @@ onUpdated(() => {
         <TextSubheading weight="600">{{ title }}</TextSubheading>
         <IconButton
           @click="handleClickCloseButton"
+          :icon-option="{
+            name: 'close',
+            opsz: '22'
+          }"
           class="base-modal__close-button"
-          name="close"
-          opsz="22"
         />
       </div>
       <div class="base-modal__content">
