@@ -21,9 +21,11 @@ export interface PostTemplate {
   createdAt: TimeStampString
   updatedAt: TimeStampString
   celeb: CelebTemplate
+  isBookmarked?: boolean
+  bookmarkCount: number
   codiesDtoList: {
     id: number
-    clothes: ClothesTemplate
+    clothesDto: ClothesTemplate
   }[]
   commentCount: number
   userDto: UserTemplate

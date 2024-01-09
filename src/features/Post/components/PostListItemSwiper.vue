@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import BaseChip from '@/components/Base/BaseChip.vue'
 import BaseIcon from '@/components/Base/BaseIcon.vue'
+import IconButton from '@/components/Common/IconButton.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
+import useToggleBookmarkMutation from '@/features/Bookmark/composables/useToggleBookmarkMutation'
+import type { ToggleBookmarkType } from '@/model/Bookmark'
 import type { ClothesTemplate } from '@/model/Clothes'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -11,6 +14,9 @@ import { computed } from 'vue'
 
 /* Prop */
 interface Props {
+  postId: number
+  isPostBookmarked?: boolean
+  postBookmarkCount: number
   postTitle: string
   postImageUrl: string
   celebName: string
@@ -20,31 +26,50 @@ const props = withDefaults(defineProps<Props>(), {})
 
 /* Local State */
 interface DataTemplate {
-  id?: number
+  type: ToggleBookmarkType
+  id: number
+  isBookmarked?: boolean
+  bookmarkCount: number
   title: string
   imageUrl: string
   chipText: string
   sellUrl?: string
 }
-const codyData = computed<DataTemplate>(() => ({
+const postData = computed<DataTemplate>(() => ({
+  type: 'post',
+  id: props.postId,
   title: props.postTitle,
+  isBookmarked: props.isPostBookmarked,
+  bookmarkCount: props.postBookmarkCount,
   imageUrl: props.postImageUrl,
   chipText: props.celebName
 }))
 const clothesListData = computed<DataTemplate[]>(() =>
   props.clothesList.map((clothes) => ({
+    type: 'clothes',
     id: clothes.id,
+    isBookmarked: clothes.isBookmarked,
+    bookmarkCount: clothes.bookmarkCount,
     title: clothes.name,
     imageUrl: clothes.imageUrl,
     chipText: clothes.brand,
     sellUrl: clothes.sellUrl
   }))
 )
-const data = computed(() => [codyData.value, ...clothesListData.value])
+const data = computed(() => [postData.value, ...clothesListData.value])
+
+/* Vue Query */
+const { mutate: toggleBookmarkMutate, isLoading: isLoadingToggleBookmark } =
+  useToggleBookmarkMutation()
 
 /* Helper Function */
 const convertBackgroundImageUrlString = (url: string) => {
   return `url(${url})`
+}
+
+/* Event Handler */
+const handleClickBookmarkButton = (id: number, type: ToggleBookmarkType) => {
+  toggleBookmarkMutate({ routeParams: { id, type } })
 }
 </script>
 
@@ -66,6 +91,22 @@ const convertBackgroundImageUrlString = (url: string) => {
 
       <div class="post-list-item-swiper__info-wrapper">
         <div class="post-list-item-swiper__full-name">
+          <div class="post-list-item-swiper__bookmark-wrapper">
+            <IconButton
+              @click="handleClickBookmarkButton(item.id, item.type)"
+              :icon-option="{
+                name: 'bookmark',
+                opsz: '24',
+                wght: '220'
+              }"
+              :button-option="{
+                isLoading: isLoadingToggleBookmark
+              }"
+              class="post-list-item-swiper__bookmark-button"
+              :class="{ 'post-list-item-swiper__bookmark-button--bookmarked': item.isBookmarked }"
+            />
+            <TextBody2>{{ item.bookmarkCount }}</TextBody2>
+          </div>
           <BaseChip
             type="outlined"
             textColor="var(--gray-600)"
@@ -92,6 +133,15 @@ const convertBackgroundImageUrlString = (url: string) => {
 
 <style lang="scss">
 .post-list-item-swiper {
+  .swiper-pagination {
+    position: static;
+    padding-block: 8px;
+  }
+}
+</style>
+
+<style scoped lang="scss">
+.post-list-item-swiper {
   /* Local Variable */
   $image-width: 200px;
   $image-margin-inline: calc((100vw - $image-width) / 2);
@@ -108,15 +158,14 @@ const convertBackgroundImageUrlString = (url: string) => {
   .swiper-slide {
     width: $slide-width;
     padding-inline: $slide-padding-inline;
-    transition: opacity ease 0.5s;
 
     &:not(.swiper-slide-active) {
-      opacity: 0.2;
       .post-list-item-swiper__cody-image {
+        opacity: 0.2;
       }
 
       .post-list-item-swiper__info-wrapper {
-        opacity: 0;
+        display: none;
       }
 
       .post-list-item-swiper__purchase-button {
@@ -150,6 +199,20 @@ const convertBackgroundImageUrlString = (url: string) => {
     padding: 8px;
   }
 
+  &__bookmark-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+  }
+
+  &__bookmark-button {
+    padding-inline: 2px;
+  }
+
+  &__bookmark-button--bookmarked {
+    color: rgba(var(--yellow));
+  }
+
   &__chip {
     word-break: keep-all;
     text-align: center;
@@ -170,11 +233,6 @@ const convertBackgroundImageUrlString = (url: string) => {
     padding: 8px;
     background-color: rgba(var(--blue));
     color: rgba(var(--white));
-  }
-
-  .swiper-pagination {
-    position: static;
-    padding-block: 8px;
   }
 }
 </style>
