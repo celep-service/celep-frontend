@@ -22,10 +22,13 @@ const props = withDefaults(defineProps<Props>(), {})
     </div>
 
     <PostListItemSwiper
+      :post-id="post.id"
+      :is-post-bookmarked="post.isBookmarked"
+      :post-bookmark-count="post.bookmarkCount"
       :post-title="post.title"
       :post-image-url="post.imageUrl"
       :celeb-name="post.celeb.name"
-      :clothesList="post.codiesDtoList.map(({ clothes }) => clothes)"
+      :clothesList="post.codiesDtoList.map((codiesDto) => codiesDto.clothesDto)"
     />
 
     <div class="post-list-item__comment-info-wrapper">
