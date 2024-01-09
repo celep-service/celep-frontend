@@ -44,6 +44,11 @@ axiosInstance.interceptors.response.use(
         router.push({ name: 'login' })
         showToastMessage('로그인이 만료되었습니다.', 'Info')
       }
+
+      if (error.response.status === 403) {
+        router.push({ name: 'login' })
+        showToastMessage('로그인이 필요합니다.', 'Info')
+      }
     }
 
     return Promise.reject(error)
