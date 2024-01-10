@@ -11,6 +11,7 @@ import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import uploadFile from '@/firebase/uploadFile'
 import { getDownloadURL } from 'firebase/storage'
 import { storeToRefs } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -38,8 +39,8 @@ const handleClickInputCompleteButton = async () => {
 
   try {
     isLoadingUploadFile.value = true
-    
-    const codyImageFileName = crypto.randomUUID()
+
+    const codyImageFileName = uuidv4()
     const uploadedFile = await uploadFile(codyImageFile.value!, codyImageFileName)
 
     uploadedCodyImageUrl.value = await getDownloadURL(uploadedFile.ref)

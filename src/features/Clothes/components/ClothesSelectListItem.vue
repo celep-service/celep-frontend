@@ -4,6 +4,7 @@ import TextBody2 from '@/components/Text/TextBody2.vue'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import { CLOTHES_CATEGORY_MAP, type ClothesTemplate } from '@/model/Clothes'
 import { storeToRefs } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 import { computed } from 'vue'
 
 /* Prop */
@@ -15,7 +16,7 @@ const { checkedClothesList } = storeToRefs(useCreatePostStore())
 
 /* Local State */
 const isChecked = computed(() => checkedClothesList.value?.includes(props))
-const checkboxId = crypto.randomUUID()
+const checkboxId = uuidv4()
 const categoryColor = computed(() => {
   switch (props.clothesCategory) {
     case 'ACCESSORY':
