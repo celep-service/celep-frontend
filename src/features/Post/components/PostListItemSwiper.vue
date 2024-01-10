@@ -49,7 +49,7 @@ const clothesListData = computed<DataTemplate[]>(() =>
     type: 'clothes',
     id: clothes.id,
     isBookmarked: clothes.isBookmarked,
-    bookmarkCount: clothes.bookmarkCount,
+    bookmarkCount: clothes.bookmarkCount!,
     title: clothes.name,
     imageUrl: clothes.imageUrl,
     chipText: clothes.brand,
