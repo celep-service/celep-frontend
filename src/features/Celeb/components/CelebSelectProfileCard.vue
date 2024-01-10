@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import TextBody2 from '@/components/Text/TextBody2.vue'
-import { computed } from 'vue'
+import TextBody2 from '@/components/Text/TextBody2.vue';
+import { v4 as uuidv4 } from 'uuid';
+import { computed } from 'vue';
 
 /* Prop */
 interface Props {
@@ -18,7 +19,7 @@ interface Emits {
 const emits = defineEmits<Emits>()
 
 /* Local State */
-const radioId = crypto.randomUUID()
+const radioId = uuidv4()
 const modelValue = computed({
   get() {
     return props.modelValue
