@@ -45,7 +45,13 @@ const fullName = computed(() => `${props.brand} - ${props.name}`)
     class="clothes-select-list-item"
     :class="{ 'clothes-select-list-item--checked': isChecked }"
   >
-    <input v-model="checkedClothesList" :value="props" type="checkbox" :id="checkboxId" />
+    <input
+      v-model="checkedClothesList"
+      :value="props"
+      type="checkbox"
+      :id="checkboxId"
+      class="clothes-select-list-item__checkbox"
+    />
     <img :src="imageUrl" class="clothes-select-list-item__image" />
     <BaseChip
       type="outlined"
@@ -70,11 +76,16 @@ const fullName = computed(() => `${props.brand} - ${props.name}`)
     background-color: rgba(var(--gray-50));
   }
 
+  &__checkbox {
+    width: 14px;
+    aspect-ratio: 1;
+  }
+
   &__image {
     width: 80px;
   }
 
-  &__category-chip{
+  &__category-chip {
     word-break: keep-all;
   }
 }
