@@ -42,11 +42,6 @@ const props = withDefaults(defineProps<Props>(), {})
 .post-list-item {
   display: flex;
   flex-direction: column;
-  border-bottom: solid 1px rgba(var(--gray-100));
-
-  &:nth-last-child(1) {
-    border-bottom: none;
-  }
 
   &__user-info-wrapper {
     display: flex;
