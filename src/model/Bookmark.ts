@@ -1,7 +1,7 @@
-export type ToggleBookmarkType = 'post' | 'clothes'
+export type BookmarkType = 'post' | 'clothes'
 export interface ToggleBookmarkRequest {
   routeParams: {
-    type: ToggleBookmarkType
+    type: BookmarkType
     id: number
   }
 }

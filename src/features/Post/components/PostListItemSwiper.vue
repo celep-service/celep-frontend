@@ -4,7 +4,7 @@ import BaseIcon from '@/components/Base/BaseIcon.vue'
 import IconButton from '@/components/Common/IconButton.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import useToggleBookmarkMutation from '@/features/Bookmark/composables/useToggleBookmarkMutation'
-import type { ToggleBookmarkType } from '@/model/Bookmark'
+import type { BookmarkType } from '@/model/Bookmark'
 import type { ClothesTemplate } from '@/model/Clothes'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {})
 
 /* Local State */
 interface DataTemplate {
-  type: ToggleBookmarkType
+  type: BookmarkType
   id: number
   isBookmarked?: boolean
   bookmarkCount: number
@@ -68,7 +68,7 @@ const convertBackgroundImageUrlString = (url: string) => {
 }
 
 /* Event Handler */
-const handleClickBookmarkButton = (id: number, type: ToggleBookmarkType) => {
+const handleClickBookmarkButton = (id: number, type: BookmarkType) => {
   toggleBookmarkMutate({ routeParams: { id, type } })
 }
 </script>
