@@ -19,7 +19,7 @@ export interface ClothesTemplate {
   updatedAt: TimeStampString
   id: number
   isBookmarked?: boolean
-  bookmarkCount: number
+  bookmarkCount?: number
   name: string
   clothesCategory: ClothesCategoryCode
   brand: string
