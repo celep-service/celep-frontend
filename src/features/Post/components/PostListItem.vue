@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BaseIcon from '@/components/Base/BaseIcon.vue'
-import TextBody1 from '@/components/Text/TextBody1.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import PostListItemSwiper from '@/features/Post/components/PostListItemSwiper.vue'
 import type { PostTemplate } from '@/model/Post'
@@ -30,11 +29,12 @@ const props = withDefaults(defineProps<Props>(), {})
       :celeb-name="post.celeb.name"
       :clothesList="post.codiesDtoList.map((codiesDto) => codiesDto.clothesDto)"
     />
-
-    <div class="post-list-item__comment-info-wrapper">
-      <BaseIcon name="comment" opsz="14" wght="600" class="post-list-item__comment-icon" />
-      <TextBody1 weight="500">댓글 {{ post.commentCount }}</TextBody1>
-    </div>
+    <!-- TODO: 댓글 기능 추가 
+      <div class="post-list-item__comment-info-wrapper">
+        <BaseIcon name="comment" opsz="14" wght="600" class="post-list-item__comment-icon" />
+        <TextBody1 weight="500">댓글 {{ post.commentCount }}</TextBody1>
+      </div>
+    -->
   </div>
 </template>
 
