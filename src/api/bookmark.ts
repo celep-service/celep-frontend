@@ -13,7 +13,7 @@ export const fetchBookmarks = async (req: BookmarksRequest, pageParam?: number) 
   (
     await axiosInstance.get<BookmarksResponse>(`/bookmarks/${req.routeParams.type}`, {
       params: {
-        ...req.queryParams,
+        size: 21,
         page: pageParam
       }
     })

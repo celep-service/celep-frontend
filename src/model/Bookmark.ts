@@ -20,7 +20,7 @@ export interface BookmarksRequest {
   routeParams: {
     type: BookmarkType
   }
-  queryParams?: PaginationQueryParams & {}
+  queryParams?: Omit<PaginationQueryParams, 'size'> & {}
 }
 
 export type BookmarkTemplate = PostTemplate | ClothesTemplate

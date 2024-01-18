@@ -2,8 +2,9 @@
 import IconButton from '@/components/Common/IconButton.vue'
 import useToggleBookmarkMutation from '@/features/Bookmark/composables/useToggleBookmarkMutation'
 import type { BookmarkTemplate, BookmarkType } from '@/model/Bookmark'
-import { computed } from 'vue'
 import useConfirmDialogStore from '@/stores/useConfirmDialogStore'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 /* Prop */
 interface Props {
@@ -12,6 +13,9 @@ interface Props {
   page: number
 }
 const props = withDefaults(defineProps<Props>(), {})
+
+/* Router */
+const router = useRouter()
 
 /* Pinia */
 const { showConfirmDialog } = useConfirmDialogStore()
@@ -24,6 +28,11 @@ const { mutate: toggleBookmarkMutate, isLoading: isLoadingToggleBookmark } =
   useToggleBookmarkMutation()
 
 /* Event Handler */
+const handleClickItem = () => {
+  if (props.bookmarkType !== 'post') return
+
+  router.push({ name: 'bookmarks/posts', query: { postId: props.bookmark.id } })
+}
 const handleClickBookmarkButton = () => {
   showConfirmDialog('북마크에서 삭제하시겠습니까?', () =>
     toggleBookmarkMutate({ routeParams: { id: props.bookmark.id, type: props.bookmarkType } })
@@ -32,7 +41,11 @@ const handleClickBookmarkButton = () => {
 </script>
 
 <template>
-  <div class="bookmarks-grid-item" :style="{ backgroundImage: backgroundImageUrlString }">
+  <div
+    @click="handleClickItem"
+    class="bookmarks-grid-item"
+    :style="{ backgroundImage: backgroundImageUrlString }"
+  >
     <IconButton
       @click.stop="handleClickBookmarkButton()"
       :icon-option="{ name: 'bookmark', opsz: 20, fill: 1 }"

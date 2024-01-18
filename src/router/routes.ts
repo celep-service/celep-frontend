@@ -49,6 +49,12 @@ export default [
     component: () => import('@/views/BookmarksView.vue')
   },
   {
+    path: '/bookmarks/posts',
+    name: 'bookmarks/posts',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/BookmarksPostListView.vue')
+  },
+  {
     path: '/profile',
     name: 'profile',
     meta: { requiresAuth: true },

@@ -3,16 +3,32 @@ import BaseIcon from '@/components/Base/BaseIcon.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import PostListItemSwiper from '@/features/Post/components/PostListItemSwiper.vue'
 import type { PostTemplate } from '@/model/Post'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 /* Prop */
 interface Props {
   post: PostTemplate
 }
 const props = withDefaults(defineProps<Props>(), {})
+
+/* Router */
+const route = useRoute()
+const queryParamPostId = Number(route.query.postId)
+
+/* Local State */
+const postListItemRef = ref<HTMLDivElement>()
+
+/* Hook */
+onMounted(() => {
+  if (props.post.id !== queryParamPostId) return
+
+  postListItemRef.value!.scrollIntoView()
+})
 </script>
 
 <template>
-  <div class="post-list-item">
+  <div ref="postListItemRef" class="post-list-item">
     <div class="post-list-item__user-info-wrapper">
       <div class="post-list-item__user-avatar">
         <BaseIcon name="person" opsz="18" fill="1" class="post-list-item__user-avatar-icon" />

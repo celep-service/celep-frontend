@@ -17,9 +17,6 @@ const props = withDefaults(defineProps<Props>(), {})
 const requestData = computed<BookmarksRequest>(() => ({
   routeParams: {
     type: props.bookmarkType
-  },
-  queryParams: {
-    size: 21
   }
 }))
 const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
