@@ -22,7 +22,10 @@ const useToggleBookmarkMutation = () => {
         : '북마크가 해제되었습니다.'
       showToastMessage(SUCCESS_MESSAGE, 'Success')
       queryClient.invalidateQueries([FETCH_POSTS_INFINITE_QUERY_KEY])
-      queryClient.invalidateQueries([FETCH_BOOKMARKS_INFINITE_QUERY_KEY])
+      queryClient.invalidateQueries({
+        queryKey: [FETCH_BOOKMARKS_INFINITE_QUERY_KEY],
+        refetchType: 'all'
+      })
     },
     onError: (error) => {
       if (isAxiosError(error) && error.response?.status === 403) return
