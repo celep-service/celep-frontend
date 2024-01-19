@@ -1,7 +1,7 @@
 <script lang="ts">
 export interface BaseIconProps {
   name: string
-  fill?: number | string
+  fill?: number | string | boolean
   wght?: number | string
   grad?: number | string
   opsz?: number | string
@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<BaseIconProps>(), {
 /* Local State */
 const shapeClassName = computed(() => `material-symbols-${props.shape}`)
 const fontSize = computed(() => `${props.opsz}px`)
+const fill = computed(() => Number(props.fill))
 </script>
 
 <template>
