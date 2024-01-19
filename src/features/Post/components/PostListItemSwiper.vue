@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import BaseChip from '@/components/Base/BaseChip.vue'
-import BaseIcon from '@/components/Base/BaseIcon.vue'
-import IconButton from '@/components/Common/IconButton.vue'
-import TextBody2 from '@/components/Text/TextBody2.vue'
 import useToggleBookmarkMutation from '@/features/Bookmark/composables/useToggleBookmarkMutation'
 import type { BookmarkType } from '@/model/Bookmark'
 import type { ClothesTemplate } from '@/model/Clothes'
@@ -11,6 +7,9 @@ import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { computed } from 'vue'
+import BaseChip from '../../../components/Base/BaseChip.vue'
+import IconButton from '../../../components/Common/IconButton.vue'
+import TextBody2 from '../../../components/Text/TextBody2.vue'
 
 /* Prop */
 interface Props {
@@ -74,58 +73,58 @@ const handleClickBookmarkButton = (id: number, type: BookmarkType) => {
 </script>
 
 <template>
-  <Swiper
-    :slidesPerView="'auto'"
-    :centeredSlides="true"
-    :pagination="{
-      clickable: true
-    }"
-    :modules="[Pagination]"
-    class="post-list-item-swiper"
-  >
+  <Swiper :pagination="true" :modules="[Pagination]" class="post-list-item-swiper">
     <SwiperSlide v-for="item in data" :key="item.id">
-      <div
-        :style="{ backgroundImage: convertBackgroundImageUrlString(item.imageUrl) }"
-        class="post-list-item-swiper__cody-image"
-      ></div>
-
-      <div class="post-list-item-swiper__info-wrapper">
-        <div class="post-list-item-swiper__full-name">
-          <div class="post-list-item-swiper__bookmark-wrapper">
+      <div class="post-list-item-swiper__content-wrapper">
+        <div
+          :style="{ backgroundImage: convertBackgroundImageUrlString(item.imageUrl) }"
+          class="post-list-item-swiper__cody-image"
+        >
+          <a v-if="item.sellUrl" :href="item.sellUrl" target="_blank">
             <IconButton
-              @click="handleClickBookmarkButton(item.id, item.type)"
-              :icon-option="{
-                name: 'bookmark',
-                opsz: '24',
-                wght: '220'
+              :iconOption="{
+                name: 'shopping_bag'
               }"
-              :button-option="{
-                isLoading: isLoadingToggleBookmark
+              :buttonOption="{
+                type: 'filled',
+                backgroundColor: 'var(--black) / 0.8',
+                textColor: 'var(--white)'
               }"
-              class="post-list-item-swiper__bookmark-button"
-              :class="{ 'post-list-item-swiper__bookmark-button--bookmarked': item.isBookmarked }"
+              class="post-list-item-swiper__sell-button"
             />
-            <TextBody2>{{ item.bookmarkCount }}</TextBody2>
-          </div>
-          <BaseChip
-            type="outlined"
-            textColor="var(--gray-600)"
-            borderColor="var(--gray-400)"
-            :text="item.chipText"
-            class="post-list-item-swiper__chip"
-          />
-          <TextBody2 weight="500" class="post-list-item-swiper__name">{{ item.title }}</TextBody2>
+          </a>
         </div>
 
-        <a
-          v-if="item.sellUrl"
-          class="post-list-item-swiper__purchase-button"
-          :href="item.sellUrl"
-          target="_blank"
-        >
-          <TextBody2 weight="500">구매하러 가기</TextBody2>
-          <BaseIcon name="chevron_right" opsz="24" />
-        </a>
+        <div class="post-list-item-swiper__info-wrapper">
+          <div class="post-list-item-swiper__full-name">
+            <div class="post-list-item-swiper__bookmark-wrapper">
+              <IconButton
+                @click="handleClickBookmarkButton(item.id, item.type)"
+                :icon-option="{
+                  name: 'bookmark',
+                  opsz: '24',
+                  wght: '220',
+                  fill: item.isBookmarked!
+                }"
+                :button-option="{
+                  isLoading: isLoadingToggleBookmark
+                }"
+                class="post-list-item-swiper__bookmark-button"
+                :class="{ 'post-list-item-swiper__bookmark-button--bookmarked': item.isBookmarked }"
+              />
+              <TextBody2>{{ item.bookmarkCount }}</TextBody2>
+            </div>
+            <BaseChip
+              :type="item.type === 'post' ? 'filled' : 'outlined'"
+              backgroundColor="var(--indigo-100)"
+              :textColor="item.type === 'post' ? 'var(--indigo-700)' : 'var(--gray-600)'"
+              borderColor="var(--gray-400)"
+              :text="item.chipText"
+              class="post-list-item-swiper__chip"
+            />
+            <TextBody2 weight="500" class="post-list-item-swiper__name">{{ item.title }}</TextBody2>
+          </div>
+        </div>
       </div>
     </SwiperSlide>
   </Swiper>
@@ -133,70 +132,58 @@ const handleClickBookmarkButton = (id: number, type: BookmarkType) => {
 
 <style lang="scss">
 .post-list-item-swiper {
-  .swiper-pagination {
-    position: static;
-    padding-block: 8px;
+  .swiper-wrapper {
+    align-items: flex-end;
   }
 }
 </style>
 
 <style scoped lang="scss">
 .post-list-item-swiper {
-  /* Local Variable */
-  $image-width: 200px;
-  $image-margin-inline: calc((100vw - $image-width) / 2);
-  $slide-padding-inline: 20px;
-  $slide-width: calc($image-width + 2 * $slide-padding-inline);
-  $slide-margin-inline: calc((100vw - $slide-width) / 2);
+  width: 100vw;
+  padding-bottom: 32px;
 
-  width: 100%;
-
-  .swiper-wrapper {
-    position: relative;
-  }
-
-  .swiper-slide {
-    width: $slide-width;
-    padding-inline: $slide-padding-inline;
-
-    &:not(.swiper-slide-active) {
-      .post-list-item-swiper__cody-image {
-        opacity: 0.2;
-      }
-
-      .post-list-item-swiper__info-wrapper {
-        display: none;
-      }
-
-      .post-list-item-swiper__purchase-button {
-        display: none;
-      }
-    }
+  &__content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
 
   &__cody-image {
-    width: $image-width;
+    position: relative;
+    width: 100%;
     aspect-ratio: 1;
+    margin: 0 auto;
     background-color: rgba(var(--gray-200));
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
 
+  &__sell-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    &:hover {
+      background-color: rgba(var(--black) / 0.6);
+    }
+  }
+
   &__info-wrapper {
-    position: relative;
-    right: $image-margin-inline;
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    flex: 1;
   }
 
   &__full-name {
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 6px;
-    padding: 8px;
+    padding-inline: 4px;
   }
 
   &__bookmark-wrapper {
@@ -207,10 +194,10 @@ const handleClickBookmarkButton = (id: number, type: BookmarkType) => {
 
   &__bookmark-button {
     padding-inline: 2px;
-  }
 
-  &__bookmark-button--bookmarked {
-    color: rgba(var(--yellow));
+    &--bookmarked {
+      color: rgba(var(--yellow-300));
+    }
   }
 
   &__chip {
