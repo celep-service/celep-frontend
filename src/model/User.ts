@@ -29,3 +29,11 @@ export interface CreateUserRequest {
 }
 
 export type CreateUserResponse = ApiResponse<UserTemplate>
+
+export interface LoggedInUserTemplate {
+  name: string
+  gender: GenderCode
+  userProfileImage?: string
+}
+
+export type LoggedInUserResponse = ApiResponse<LoggedInUserTemplate>

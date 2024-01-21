@@ -4,16 +4,24 @@ import BaseInput from '@/components/Base/BaseInput.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import TextHero from '@/components/Text/TextHero.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
+import useToastMessageStore from '@/composables/useToastMessageStore'
 import { VALIDATE_MESSAGE } from '@/constants/validate'
+import useFetchLoggedInUserQuery from '@/features/User/composables/useFetchLoggedInUserQuery'
 import useLoginUserMutation from '@/features/User/composables/useLoginUserMutation'
+import useUserStore from '@/features/User/stores/useUserStore'
 import type { ApiErrorResponse } from '@/model/Api'
 import { isValidEmail } from '@/utils/validate'
 import axios from 'axios'
-import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 /* Router */
 const router = useRouter()
+
+/* Pinia */
+const { showToastMessage } = useToastMessageStore()
+const { user } = storeToRefs(useUserStore())
 
 /* Local State */
 const email = ref('')
@@ -25,11 +33,16 @@ const requestData = computed(() => ({
 const warningMessage = ref<string>()
 
 /* Vue Query */
-const { mutate, isLoading } = useLoginUserMutation((error) => {
+const {
+  mutate: loginUserMutate,
+  isLoading: isLoadingLoginUser,
+  isSuccess: isSuccessLoginUser
+} = useLoginUserMutation((error) => {
   if (axios.isAxiosError<ApiErrorResponse>(error) && error.response) {
     warningMessage.value = error.response.data.message
   }
 })
+const { data: loggedInUserData } = useFetchLoggedInUserQuery(isSuccessLoginUser)
 
 /* Helper Function */
 const validate = () => {
@@ -50,11 +63,25 @@ const validate = () => {
 const handleClickGuestLink = () => {
   router.push({ name: 'home' })
 }
-const handleClickLoginButton = () => {
+const handleClickLoginButton = async () => {
   if (validate()) {
-    mutate(requestData.value)
+    loginUserMutate(requestData.value)
   }
 }
+
+/* Watch */
+/* 
+로그인 성공 이후, 로그인한 유저의 API를 가져오는데 성공했을 경우 로직
+*/
+watch(loggedInUserData, (loggedInUserData) => {
+  if (!loggedInUserData) return
+
+  // 유저 스토어에 로그인된 유저의 정보를 저장
+  user.value = loggedInUserData.data
+
+  router.push({ name: 'home' })
+  showToastMessage('로그인 되었습니다.', 'Success')
+})
 </script>
 
 <template>
@@ -70,7 +97,7 @@ const handleClickLoginButton = () => {
         </TextBody2>
         <BaseButton
           @click.prevent="handleClickLoginButton"
-          :is-loading="isLoading"
+          :is-loading="isLoadingLoginUser"
           class="login-view__login-button"
         >
           로그인
