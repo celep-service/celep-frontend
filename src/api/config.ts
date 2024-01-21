@@ -1,9 +1,11 @@
 import useToastMessageStore from '@/composables/useToastMessageStore'
 import { API_SERVER_URL } from '@/constants/api'
 import { ACCESS_TOKEN_KEY } from '@/constants/jwt'
+import useUserStore from '@/features/User/stores/useUserStore'
 import type { ApiErrorResponse } from '@/model/Api'
 import router from '@/router'
 import axios, { isAxiosError } from 'axios'
+import { storeToRefs } from 'pinia'
 
 const IS_DEV = import.meta.env.DEV
 
@@ -34,6 +36,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     /* Pinia */
     const { showToastMessage } = useToastMessageStore()
+    const { user } = storeToRefs(useUserStore())
 
     if (isAxiosError<ApiErrorResponse>(error) && error.response) {
       if (
@@ -41,6 +44,8 @@ axiosInstance.interceptors.response.use(
         [3009, 3010, 3011, 3012].includes(error.response.data.code)
       ) {
         localStorage.removeItem(ACCESS_TOKEN_KEY)
+        user.value = undefined
+
         router.push({ name: 'login' })
         showToastMessage('로그인이 만료되었습니다.', 'Info')
       }
