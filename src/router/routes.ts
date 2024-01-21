@@ -7,6 +7,12 @@ export default [
     component: () => import('@/views/HomeView.vue')
   },
   {
+    path: '/splash',
+    name: 'splash',
+    meta: { inactiveBottomTabBar: true },
+    component: () => import('@/views/SplashView.vue')
+  },
+  {
     path: '/posts/search',
     name: 'posts/search',
     meta: { inactiveBottomTabBar: true },
