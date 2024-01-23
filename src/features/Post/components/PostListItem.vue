@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BaseIcon from '@/components/Base/BaseIcon.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import PostListItemSwiper from '@/features/Post/components/PostListItemSwiper.vue'
+import UserAvatar from '@/features/User/components/UserAvatar.vue'
 import type { PostTemplate } from '@/model/Post'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -30,9 +30,7 @@ onMounted(() => {
 <template>
   <div ref="postListItemRef" class="post-list-item">
     <div class="post-list-item__user-info-wrapper">
-      <div class="post-list-item__user-avatar">
-        <BaseIcon name="person" opsz="18" fill="1" class="post-list-item__user-avatar-icon" />
-      </div>
+      <UserAvatar :image-url="post.userDto.userProfileImage" />
       <TextBody2 weight="500">{{ post.userDto.name }}</TextBody2>
     </div>
 
@@ -65,20 +63,6 @@ onMounted(() => {
     gap: 6px;
     width: fit-content;
     padding: 12px;
-  }
-
-  &__user-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 1;
-    width: 24px;
-    border-radius: 50%;
-    background-color: rgba(var(--gray-300));
-  }
-
-  &__user-avatar-icon {
-    color: rgba(var(--white));
   }
 
   &__comment-info-wrapper {
