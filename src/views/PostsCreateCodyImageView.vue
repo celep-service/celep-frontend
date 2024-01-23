@@ -2,6 +2,7 @@
 import AppBar from '@/components/AppBar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseIcon from '@/components/Base/BaseIcon.vue'
+import ImageInput from '@/components/Common/ImageInput.vue'
 import TextBody1 from '@/components/Text/TextBody1.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
@@ -17,18 +18,6 @@ const { codyImageFile, codyImagePreviewUrl } = storeToRefs(useCreatePostStore())
 const { resetAllState, validateCodyImage } = useCreatePostStore()
 
 /* Event Handler */
-const handleImageChange = (event: Event) => {
-  const reader = new FileReader()
-  const imageFile = (event.target as HTMLInputElement).files![0]
-
-  codyImageFile.value = imageFile
-
-  reader.onload = (event) => {
-    codyImagePreviewUrl.value = event.target!.result as string
-  }
-
-  reader.readAsDataURL(imageFile)
-}
 const handleClickGoToPreviousButton = () => {
   router.push({ name: 'posts/create/title' })
 }
@@ -52,20 +41,16 @@ const handleClickInputCompleteButton = () => {
         (정방형 사진)
       </TextHeading3>
 
-      <label id="image-file" class="posts-create-cody-image-view__image-upload-wrapper">
-        <div v-if="!codyImagePreviewUrl" class="posts-create-cody-image-view__image-upload">
+      <ImageInput
+        v-model:file="codyImageFile"
+        v-model:image-preview-url="codyImagePreviewUrl"
+        class="posts-create-cody-image-view__image-input"
+      >
+        <div class="posts-create-cody-image-view__image-upload-instruction">
           <BaseIcon name="add_photo_alternate" opsz="60" wght="200" />
           <TextBody1 weight="500">사진 업로드</TextBody1>
         </div>
-
-        <div
-          v-else
-          :style="{ backgroundImage: `url(${codyImagePreviewUrl})` }"
-          class="posts-create-cody-image-view__image"
-        ></div>
-
-        <input @change="handleImageChange" type="file" id="image-file" accept="image/*" hidden />
-      </label>
+      </ImageInput>
 
       <div class="posts-create-cody-image-view__buttons-wrapper">
         <BaseButton
@@ -102,13 +87,11 @@ const handleClickInputCompleteButton = () => {
     color: rgba(var(--zinc-800));
   }
 
-  &__image-upload-wrapper {
-    width: 160px;
-    aspect-ratio: 1;
+  &__image-input {
     margin-top: 50px;
   }
 
-  &__image-upload {
+  &__image-upload-instruction {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -116,17 +99,9 @@ const handleClickInputCompleteButton = () => {
     gap: 10px;
     width: 100%;
     height: 100%;
-    border: solid 2px rgba(var(--gray-300));
-    border-radius: 8px;
     color: rgba(var(--gray-300));
-  }
-
-  &__image {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    border: solid 2px rgba(var(--gray-300));
+    border-radius: inherit;
   }
 
   &__buttons-wrapper {
