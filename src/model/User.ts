@@ -6,6 +6,7 @@ export interface UserTemplate {
   name: string
   email: string
   gender: GenderCode
+  userProfileImage?: string
 }
 
 export interface LoginUserRequest {
@@ -25,6 +26,7 @@ export interface CreateUserRequest {
     name: string
     password: string
     gender: string
+    userProfileImage?: string
   }
 }
 
