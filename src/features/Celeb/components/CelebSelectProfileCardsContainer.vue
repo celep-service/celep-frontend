@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import BaseButton from '@/components/Base/BaseButton.vue'
+import BaseIcon from '@/components/Base/BaseIcon.vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
+import AppSpinner from '@/components/Common/AppSpinner.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import CelebSelectProfileCard from '@/features/Celeb/components/CelebSelectProfileCard.vue'
 import CelebSelectProfileCardsSkeleton from '@/features/Celeb/components/CelebSelectProfileCardsSkeleton.vue'
@@ -24,6 +27,11 @@ const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0
 /* Vue Query */
 const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
   useFetchCelebsInfiniteQuery(requestData)
+
+/* Event Handler */
+const handleClickExpandMoreButton = () => {
+  fetchNextPage()
+}
 
 /* Watch */
 watch(search, () => {
@@ -54,6 +62,24 @@ watch(search, () => {
               :imageUrl="imageUrl"
             />
           </template>
+        </div>
+
+        <BaseButton
+          v-if="hasNextPage"
+          @click="handleClickExpandMoreButton"
+          type="outlined"
+          textColor="var(--gray-600)"
+          class="celeb-select-profile-cards-container__expand-more-button"
+        >
+          더보기
+          <BaseIcon name="expand_more" opsz="20" />
+        </BaseButton>
+
+        <div
+          v-if="isFetchingNextPage"
+          class="celeb-select-profile-cards-container__spinner-wrapper"
+        >
+          <AppSpinner />
         </div>
       </template>
 
@@ -92,6 +118,21 @@ watch(search, () => {
     flex-wrap: wrap;
     gap: 14px;
     width: 90vw;
+    max-width: 500px;
+  }
+
+  &__expand-more-button {
+    width: 60vw;
+    height: 40px;
+    margin-top: 20px;
+  }
+
+  &__spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
   }
 
   &__empty-container {
