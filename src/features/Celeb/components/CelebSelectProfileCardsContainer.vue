@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import BaseButton from '@/components/Base/BaseButton.vue'
+import BaseIcon from '@/components/Base/BaseIcon.vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
+import AppSpinner from '@/components/Common/AppSpinner.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import CelebSelectProfileCard from '@/features/Celeb/components/CelebSelectProfileCard.vue'
 import CelebSelectProfileCardsSkeleton from '@/features/Celeb/components/CelebSelectProfileCardsSkeleton.vue'
-import useFetchCelebsQuery from '@/features/Celeb/composables/useFetchCelebsQuery'
+import useFetchCelebsInfiniteQuery from '@/features/Celeb/composables/useFetchCelebsInfiniteQuery'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import type { CelebsRequest } from '@/model/Celeb'
 import { storeToRefs } from 'pinia'
-import { computed, onUpdated } from 'vue'
+import { computed, watch } from 'vue'
 
 /* Pinia */
 const { celebId, celebNameSearchKeyword: search } = storeToRefs(useCreatePostStore())
@@ -19,16 +22,19 @@ const requestData = computed<CelebsRequest>(() => ({
     search: search.value
   }
 }))
-const hasContent = computed(() => data.value?.data.content.length !== 0)
+const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
 
 /* Vue Query */
-const { data } = useFetchCelebsQuery(requestData)
+const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+  useFetchCelebsInfiniteQuery(requestData)
+
+/* Event Handler */
+const handleClickExpandMoreButton = () => {
+  fetchNextPage()
+}
 
 /* Watch */
-onUpdated(() => {
-  if (!data.value) return
-  if (data.value.data.content.some((celeb) => celeb.id === celebId.value)) return
-
+watch(search, () => {
   resetCelebId()
 })
 </script>
@@ -44,16 +50,38 @@ onUpdated(() => {
     />
 
     <template v-if="data">
-      <div v-if="hasContent" class="celeb-select-profile-cards-container__cards">
-        <CelebSelectProfileCard
-          v-for="{ id, name, imageUrl } in data.data.content"
-          :key="id"
-          v-model="celebId"
-          :id="id"
-          :name="name"
-          :imageUrl="imageUrl"
-        />
-      </div>
+      <template v-if="hasContent">
+        <div class="celeb-select-profile-cards-container__cards">
+          <template v-for="page in data.pages" :key="page.data.pageable.pageNumber">
+            <CelebSelectProfileCard
+              v-for="{ id, name, imageUrl } in page.data.content"
+              :key="id"
+              v-model="celebId"
+              :id="id"
+              :name="name"
+              :imageUrl="imageUrl"
+            />
+          </template>
+        </div>
+
+        <BaseButton
+          v-if="hasNextPage"
+          @click="handleClickExpandMoreButton"
+          type="outlined"
+          textColor="var(--gray-600)"
+          class="celeb-select-profile-cards-container__expand-more-button"
+        >
+          더보기
+          <BaseIcon name="expand_more" opsz="20" />
+        </BaseButton>
+
+        <div
+          v-if="isFetchingNextPage"
+          class="celeb-select-profile-cards-container__spinner-wrapper"
+        >
+          <AppSpinner />
+        </div>
+      </template>
 
       <div v-else class="celeb-select-profile-cards-container__empty-container">
         <TextBody2 class="celeb-select-profile-cards-container__empty-message">
@@ -90,6 +118,21 @@ onUpdated(() => {
     flex-wrap: wrap;
     gap: 14px;
     width: 90vw;
+    max-width: 500px;
+  }
+
+  &__expand-more-button {
+    width: 60vw;
+    height: 40px;
+    margin-top: 20px;
+  }
+
+  &__spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
   }
 
   &__empty-container {
