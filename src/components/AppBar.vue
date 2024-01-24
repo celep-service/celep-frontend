@@ -4,7 +4,7 @@ import TextHeading2 from '@/components/Text/TextHeading2.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import useConfirmDialogStore from '@/stores/useConfirmDialogStore'
 import type { AnyFn } from '@vueuse/core'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 /* Prop */
 interface Props {
@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 /* Router */
 const router = useRouter()
+const route = useRoute()
 
 /* Pinia */
 const { showConfirmDialog } = useConfirmDialogStore()
@@ -28,6 +29,12 @@ const goToHomeView = () => {
 }
 
 const goToPreviousView = () => {
+  const previousUrl = router.options.history.state.back
+  if (previousUrl?.toString().startsWith('/splash')) {
+    goToHomeView()
+    return
+  }
+
   router.back()
 }
 
@@ -43,7 +50,7 @@ const handleClickBackButton = () => {
 const handleClickCloseButton = () => {
   showConfirmDialog('정말 닫으시겠습니까?', () => {
     props.onClose?.()
-    goToHomeView()
+    goToPreviousView()
   })
 }
 </script>
