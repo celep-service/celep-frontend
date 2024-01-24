@@ -58,6 +58,6 @@ watch(loggedInUserData, (loggedInUserData) => {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 </style>
