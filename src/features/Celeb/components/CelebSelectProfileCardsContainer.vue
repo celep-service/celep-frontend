@@ -3,11 +3,11 @@ import BaseInput from '@/components/Base/BaseInput.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import CelebSelectProfileCard from '@/features/Celeb/components/CelebSelectProfileCard.vue'
 import CelebSelectProfileCardsSkeleton from '@/features/Celeb/components/CelebSelectProfileCardsSkeleton.vue'
-import useFetchCelebsQuery from '@/features/Celeb/composables/useFetchCelebsQuery'
+import useFetchCelebsInfiniteQuery from '@/features/Celeb/composables/useFetchCelebsInfiniteQuery'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import type { CelebsRequest } from '@/model/Celeb'
 import { storeToRefs } from 'pinia'
-import { computed, onUpdated } from 'vue'
+import { computed, watch } from 'vue'
 
 /* Pinia */
 const { celebId, celebNameSearchKeyword: search } = storeToRefs(useCreatePostStore())
@@ -19,16 +19,14 @@ const requestData = computed<CelebsRequest>(() => ({
     search: search.value
   }
 }))
-const hasContent = computed(() => data.value?.data.content.length !== 0)
+const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
 
 /* Vue Query */
-const { data } = useFetchCelebsQuery(requestData)
+const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+  useFetchCelebsInfiniteQuery(requestData)
 
 /* Watch */
-onUpdated(() => {
-  if (!data.value) return
-  if (data.value.data.content.some((celeb) => celeb.id === celebId.value)) return
-
+watch(search, () => {
   resetCelebId()
 })
 </script>
@@ -44,16 +42,20 @@ onUpdated(() => {
     />
 
     <template v-if="data">
-      <div v-if="hasContent" class="celeb-select-profile-cards-container__cards">
-        <CelebSelectProfileCard
-          v-for="{ id, name, imageUrl } in data.data.content"
-          :key="id"
-          v-model="celebId"
-          :id="id"
-          :name="name"
-          :imageUrl="imageUrl"
-        />
-      </div>
+      <template v-if="hasContent">
+        <div class="celeb-select-profile-cards-container__cards">
+          <template v-for="page in data.pages" :key="page.data.pageable.pageNumber">
+            <CelebSelectProfileCard
+              v-for="{ id, name, imageUrl } in page.data.content"
+              :key="id"
+              v-model="celebId"
+              :id="id"
+              :name="name"
+              :imageUrl="imageUrl"
+            />
+          </template>
+        </div>
+      </template>
 
       <div v-else class="celeb-select-profile-cards-container__empty-container">
         <TextBody2 class="celeb-select-profile-cards-container__empty-message">
