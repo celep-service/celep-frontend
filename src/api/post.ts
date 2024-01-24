@@ -6,7 +6,8 @@ export const fetchPosts = async (req?: PostsRequest, pageParam?: number) =>
     await axiosInstance.get<PostsResponse>('/posts', {
       params: {
         ...req?.queryParams,
-        page: pageParam
+        page: pageParam,
+        size: 21
       }
     })
   ).data
