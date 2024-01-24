@@ -67,6 +67,12 @@ export default [
     component: () => import('@/views/ProfileView.vue')
   },
   {
+    path: '/profile/posts',
+    name: 'profile/posts',
+    meta: { requiresAuth: true, inactiveBottomTabBar: true },
+    component: () => import('@/views/MyPostListView.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     meta: { inactiveBottomTabBar: true },
