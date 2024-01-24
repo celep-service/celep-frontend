@@ -50,7 +50,7 @@ const handleClickBackButton = () => {
 const handleClickCloseButton = () => {
   showConfirmDialog('정말 닫으시겠습니까?', () => {
     props.onClose?.()
-    goToPreviousView()
+    goToHomeView()
   })
 }
 </script>
