@@ -33,6 +33,7 @@ export interface CreateUserRequest {
 export type CreateUserResponse = ApiResponse<UserTemplate>
 
 export interface LoggedInUserTemplate {
+  id: number,
   name: string
   gender: GenderCode
   userProfileImage?: string
