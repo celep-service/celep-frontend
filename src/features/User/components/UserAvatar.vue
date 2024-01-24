@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import BaseIcon from '@/components/Base/BaseIcon.vue'
 import { computed } from 'vue'
-/* Constant */
 
 /* Prop */
 interface Props {
   imageUrl?: string
+  iconSize?: string | number
 }
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  iconSize: '16'
+})
 
 /* Local State */
 const fullImageUrl = computed(() => `url(${props.imageUrl})`)
@@ -22,7 +24,7 @@ const fullImageUrl = computed(() => `url(${props.imageUrl})`)
     ></div>
 
     <div v-else class="user-avatar__default-avatar">
-      <BaseIcon name="person" opsz="16" fill="1" class="user-avatar__default-icon" />
+      <BaseIcon name="person" :opsz="props.iconSize" fill="1" class="user-avatar__default-icon" />
     </div>
   </div>
 </template>
