@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseIcon from '@/components/Base/BaseIcon.vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
 import BaseSelect, { type BaseSelectOption } from '@/components/Base/BaseSelect.vue'
+import AppSpinner from '@/components/Common/AppSpinner.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import TextCaption from '@/components/Text/TextCaption.vue'
-import ClothesSelectListItem from '@/features/Clothes/components/ClothesSelectListItem.vue'
+import ClothesSelectList from '@/features/Clothes/components/ClothesSelectList.vue'
 import ClothesSelectListSkeleton from '@/features/Clothes/components/ClothesSelectListSkeleton.vue'
-import useFetchClothesListQuery from '@/features/Clothes/composables/useFetchClothesListQuery'
+import useFetchClothesListInfiniteQuery from '@/features/Clothes/composables/useFetchClothesListInfiniteQuery'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import type { ClothesCategory, ClothesCategoryCode, ClothesListRequest } from '@/model/Clothes'
 import { storeToRefs } from 'pinia'
@@ -22,12 +24,6 @@ const CLOTHES_CATEGORY_OPTIONS: BaseSelectOption<ClothesCategoryCode, ClothesCat
   { label: '하의', value: 'BOTTOM' }
 ]
 
-/* Prop */
-interface Props {
-  field?: string
-}
-const props = withDefaults(defineProps<Props>(), {})
-
 /* Pinia */
 const { checkedClothesList, clothesNameSearchKeyword: search } = storeToRefs(useCreatePostStore())
 
@@ -39,15 +35,19 @@ const requestData = computed<ClothesListRequest>(() => ({
     search: search.value
   }
 }))
-const hasContent = computed(() => data.value?.data.content.length !== 0)
+const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
 
 /* Vue Query */
-const { data } = useFetchClothesListQuery(requestData)
+const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+  useFetchClothesListInfiniteQuery(requestData)
 
 /* Event Handler */
 const handleClickRemoveCheckButton = (id: number) => {
   const removeTargetIndex = checkedClothesList.value.findIndex((clothes) => clothes.id === id)
   checkedClothesList.value.splice(removeTargetIndex, 1)
+}
+const handleClickExpandMoreButton = () => {
+  fetchNextPage()
 }
 </script>
 
@@ -83,12 +83,27 @@ const handleClickRemoveCheckButton = (id: number) => {
     </div>
 
     <template v-if="data">
-      <div v-if="hasContent" class="clothes-select-list-container__clothes-select-list">
-        <ClothesSelectListItem
-          v-for="clothes in data.data.content"
-          :key="clothes.id"
-          v-bind="clothes"
+      <div v-if="hasContent">
+        <ClothesSelectList
+          v-for="page in data.pages"
+          :key="page.data.pageable.pageNumber"
+          :clothesList="page.data.content"
         />
+
+        <BaseButton
+          v-if="hasNextPage"
+          @click="handleClickExpandMoreButton"
+          type="outlined"
+          textColor="var(--gray-600)"
+          class="clothes-select-list-container__expand-more-button"
+        >
+          더보기
+          <BaseIcon name="expand_more" opsz="20" />
+        </BaseButton>
+
+        <div v-if="isFetchingNextPage" class="clothes-select-list-container__spinner-wrapper">
+          <AppSpinner />
+        </div>
       </div>
 
       <div v-else class="clothes-select-list-container__empty-container">
@@ -147,10 +162,19 @@ const handleClickRemoveCheckButton = (id: number) => {
     color: rgba(var(--gray-100));
   }
 
-  &__clothes-select-list {
+  &__expand-more-button {
+    width: 60vw;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  &__spinner-wrapper {
     display: flex;
-    flex-direction: column;
-    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
   }
 
   &__empty-container {
