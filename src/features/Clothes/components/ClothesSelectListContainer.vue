@@ -4,9 +4,9 @@ import BaseInput from '@/components/Base/BaseInput.vue'
 import BaseSelect, { type BaseSelectOption } from '@/components/Base/BaseSelect.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
 import TextCaption from '@/components/Text/TextCaption.vue'
-import ClothesSelectListItem from '@/features/Clothes/components/ClothesSelectListItem.vue'
+import ClothesSelectList from '@/features/Clothes/components/ClothesSelectList.vue'
 import ClothesSelectListSkeleton from '@/features/Clothes/components/ClothesSelectListSkeleton.vue'
-import useFetchClothesListQuery from '@/features/Clothes/composables/useFetchClothesListQuery'
+import useFetchClothesListInfiniteQuery from '@/features/Clothes/composables/useFetchClothesListInfiniteQuery'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import type { ClothesCategory, ClothesCategoryCode, ClothesListRequest } from '@/model/Clothes'
 import { storeToRefs } from 'pinia'
@@ -33,10 +33,10 @@ const requestData = computed<ClothesListRequest>(() => ({
     search: search.value
   }
 }))
-const hasContent = computed(() => data.value?.data.content.length !== 0)
+const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
 
 /* Vue Query */
-const { data } = useFetchClothesListQuery(requestData)
+const { data, fetchNextPage, isFetchingNextPage } = useFetchClothesListInfiniteQuery(requestData)
 
 /* Event Handler */
 const handleClickRemoveCheckButton = (id: number) => {
@@ -77,11 +77,11 @@ const handleClickRemoveCheckButton = (id: number) => {
     </div>
 
     <template v-if="data">
-      <div v-if="hasContent" class="clothes-select-list-container__clothes-select-list">
-        <ClothesSelectListItem
-          v-for="clothes in data.data.content"
-          :key="clothes.id"
-          v-bind="clothes"
+      <div v-if="hasContent">
+        <ClothesSelectList
+          v-for="page in data.pages"
+          :key="page.data.pageable.pageNumber"
+          :clothesList="page.data.content"
         />
       </div>
 
@@ -139,12 +139,6 @@ const handleClickRemoveCheckButton = (id: number) => {
     border-radius: 30px;
     background-color: rgba(var(--zinc-400));
     color: rgba(var(--gray-100));
-  }
-
-  &__clothes-select-list {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
   }
 
   &__empty-container {
