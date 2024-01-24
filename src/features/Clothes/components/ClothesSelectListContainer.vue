@@ -22,12 +22,6 @@ const CLOTHES_CATEGORY_OPTIONS: BaseSelectOption<ClothesCategoryCode, ClothesCat
   { label: '하의', value: 'BOTTOM' }
 ]
 
-/* Prop */
-interface Props {
-  field?: string
-}
-const props = withDefaults(defineProps<Props>(), {})
-
 /* Pinia */
 const { checkedClothesList, clothesNameSearchKeyword: search } = storeToRefs(useCreatePostStore())
 
