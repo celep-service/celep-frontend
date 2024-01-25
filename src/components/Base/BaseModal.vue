@@ -57,8 +57,14 @@ onUpdated(() => {
 </script>
 
 <template>
-  <dialog v-if="props.open" ref="modalRef" @click="handleClickModal" class="base-modal">
-    <div class="base-modal__wrapper" :style="{ width: props.width }">
+  <dialog
+    v-if="props.open"
+    ref="modalRef"
+    @click="handleClickModal"
+    :style="{ width: props.width }"
+    class="base-modal"
+  >
+    <div class="base-modal__wrapper">
       <div class="base-modal__header">
         <TextSubheading weight="600">{{ title }}</TextSubheading>
         <IconButton
