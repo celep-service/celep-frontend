@@ -24,7 +24,6 @@ import { isValidEmail } from '@/utils/validate'
 import axios from 'axios'
 import { getDownloadURL } from 'firebase/storage'
 import { storeToRefs } from 'pinia'
-import { v4 as uuidv4 } from 'uuid'
 import { computed, ref, watch } from 'vue'
 
 /* Constant */
@@ -127,8 +126,7 @@ const handleClickCreateUserButton = async () => {
   try {
     if (profileImageFile.value) {
       isLoadingUploadProfileImage.value = true
-      const fileName = uuidv4()
-      const uploadedFile = await uploadFile(profileImageFile.value!, fileName)
+      const uploadedFile = await uploadFile(profileImageFile.value!)
       uploadedProfileImageUrl.value = await getDownloadURL(uploadedFile.ref)
     }
 
