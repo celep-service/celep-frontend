@@ -9,7 +9,7 @@ import TextBody2 from '@/components/Text/TextBody2.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
 import useAlertDialogStore from '@/composables/useAlertDialogStore'
 import useToastMessageStore from '@/composables/useToastMessageStore'
-import { VALIDATE_MESSAGE } from '@/constants/validate'
+import { USER_VALIDATE_MESSAGE } from '@/constants/validate'
 import { FirebaseStorageUploadError } from '@/error'
 import useCreateUserMutation from '@/features/User/composables/useCreateUserMutation'
 import useFetchLoggedInUserQuery from '@/features/User/composables/useFetchLoggedInUserQuery'
@@ -98,22 +98,22 @@ const { data: loggedInUserData, isLoading: isLoadingFetchLoggedInUser } =
 /* Helper Function */
 const validate = () => {
   if (!isValidEmail(email.value)) {
-    warningMessage.value = VALIDATE_MESSAGE.IS_INVALID_EMAIL
+    warningMessage.value = USER_VALIDATE_MESSAGE.IS_INVALID_EMAIL
     return false
   }
 
   if (!name.value) {
-    warningMessage.value = VALIDATE_MESSAGE.EMPTY_NAME
+    warningMessage.value = USER_VALIDATE_MESSAGE.EMPTY_NAME
     return false
   }
 
   if (!password.value || !confirmPassword.value) {
-    warningMessage.value = VALIDATE_MESSAGE.EMPTY_PASSWORD
+    warningMessage.value = USER_VALIDATE_MESSAGE.EMPTY_PASSWORD
     return false
   }
 
   if (password.value !== confirmPassword.value) {
-    warningMessage.value = VALIDATE_MESSAGE.CONFIRM_PASSWORD_DIFFERENT
+    warningMessage.value = USER_VALIDATE_MESSAGE.CONFIRM_PASSWORD_DIFFERENT
     return false
   }
 

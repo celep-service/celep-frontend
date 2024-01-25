@@ -5,7 +5,7 @@ import TextBody2 from '@/components/Text/TextBody2.vue'
 import TextHero from '@/components/Text/TextHero.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
 import useToastMessageStore from '@/composables/useToastMessageStore'
-import { VALIDATE_MESSAGE } from '@/constants/validate'
+import { USER_VALIDATE_MESSAGE } from '@/constants/validate'
 import useFetchLoggedInUserQuery from '@/features/User/composables/useFetchLoggedInUserQuery'
 import useLoginUserMutation from '@/features/User/composables/useLoginUserMutation'
 import useUserStore from '@/features/User/stores/useUserStore'
@@ -47,12 +47,12 @@ const { data: loggedInUserData } = useFetchLoggedInUserQuery(isSuccessLoginUser)
 /* Helper Function */
 const validate = () => {
   if (!isValidEmail(email.value)) {
-    warningMessage.value = VALIDATE_MESSAGE.IS_INVALID_EMAIL
+    warningMessage.value = USER_VALIDATE_MESSAGE.IS_INVALID_EMAIL
     return false
   }
 
   if (!password.value) {
-    warningMessage.value = VALIDATE_MESSAGE.EMPTY_PASSWORD
+    warningMessage.value = USER_VALIDATE_MESSAGE.EMPTY_PASSWORD
     return false
   }
 
