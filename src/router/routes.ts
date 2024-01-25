@@ -16,73 +16,73 @@ export default [
     path: '/posts/search',
     name: 'posts/search',
     meta: { inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsSearchView.vue')
+    component: () => import('@/views/Post/PostsSearchView.vue')
   },
   {
     path: '/posts/create/celeb',
     name: 'posts/create/celeb',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateCelebView.vue')
+    component: () => import('@/views/Post/PostsCreateCelebView.vue')
   },
   {
     path: '/posts/create/gender',
     name: 'posts/create/gender',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateGenderView.vue')
+    component: () => import('@/views/Post/PostsCreateGenderView.vue')
   },
   {
     path: '/posts/create/title',
     name: 'posts/create/title',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateTitleView.vue')
+    component: () => import('@/views/Post/PostsCreateTitleView.vue')
   },
   {
     path: '/posts/create/cody-image',
     name: 'posts/create/cody-image',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateCodyImageView.vue')
+    component: () => import('@/views/Post/PostsCreateCodyImageView.vue')
   },
   {
     path: '/posts/create/clothes',
     name: 'posts/create/clothes',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/PostsCreateClothesView.vue')
+    component: () => import('@/views/Post/PostsCreateClothesView.vue')
   },
   {
     path: '/bookmarks',
     name: 'bookmarks',
     meta: { requiresAuth: true },
-    component: () => import('@/views/BookmarksView.vue')
+    component: () => import('@/views/Bookmark/BookmarksView.vue')
   },
   {
     path: '/bookmarks/posts',
     name: 'bookmarks/posts',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/BookmarksPostListView.vue')
+    component: () => import('@/views/Bookmark/BookmarksPostListView.vue')
   },
   {
     path: '/profile',
     name: 'profile',
     meta: { requiresAuth: true },
-    component: () => import('@/views/ProfileView.vue')
+    component: () => import('@/views/User/ProfileView.vue')
   },
   {
     path: '/profile/posts',
     name: 'profile/posts',
     meta: { requiresAuth: true, inactiveBottomTabBar: true },
-    component: () => import('@/views/MyPostListView.vue')
+    component: () => import('@/views/User/MyPostListView.vue')
   },
   {
     path: '/login',
     name: 'login',
     meta: { inactiveBottomTabBar: true },
-    component: () => import('@/views/LoginView.vue')
+    component: () => import('@/views/User/LoginView.vue')
   },
   {
     path: '/users/create',
     name: 'users/create',
     meta: { inactiveBottomTabBar: true },
-    component: () => import('@/views/UsersCreateView.vue')
+    component: () => import('@/views/User/UsersCreateView.vue')
   },
   {
     path: '/:pathMatch(.*)*',
