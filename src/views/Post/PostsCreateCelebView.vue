@@ -3,17 +3,15 @@ import AppBar from '@/components/AppBar.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import TextHeading3 from '@/components/Text/TextHeading3.vue'
 import ViewContainer from '@/components/ViewContainer.vue'
-import useToastMessageStore from '@/composables/useToastMessageStore'
 import CelebProfileCardsContainer from '@/features/Celeb/components/CelebSelectProfileCardsContainer.vue'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
 /* Router */
 const router = useRouter()
 
 /* Pinia */
-const { resetAllState, validateCelebId } = (useCreatePostStore())
+const { resetAllState, validateCelebId } = useCreatePostStore()
 
 /* Event Handler */
 const handleClickSelectCompleteButton = () => {
