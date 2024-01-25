@@ -4,13 +4,14 @@ import BaseIcon from '@/components/Base/BaseIcon.vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
 import AppSpinner from '@/components/Common/AppSpinner.vue'
 import TextBody2 from '@/components/Text/TextBody2.vue'
+import CelebCreateModal from '@/features/Celeb/components/CelebCreateModal.vue'
 import CelebSelectProfileCard from '@/features/Celeb/components/CelebSelectProfileCard.vue'
 import CelebSelectProfileCardsSkeleton from '@/features/Celeb/components/CelebSelectProfileCardsSkeleton.vue'
 import useFetchCelebsInfiniteQuery from '@/features/Celeb/composables/useFetchCelebsInfiniteQuery'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
 import type { CelebsRequest } from '@/model/Celeb'
 import { storeToRefs } from 'pinia'
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 /* Pinia */
 const { celebId, celebNameSearchKeyword: search } = storeToRefs(useCreatePostStore())
@@ -23,6 +24,7 @@ const requestData = computed<CelebsRequest>(() => ({
   }
 }))
 const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
+const showCelebCreateModal = ref(false)
 
 /* Vue Query */
 const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -31,6 +33,9 @@ const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
 /* Event Handler */
 const handleClickExpandMoreButton = () => {
   fetchNextPage()
+}
+const handleClickCreateCelebButton = () => {
+  showCelebCreateModal.value = true
 }
 
 /* Watch */
@@ -83,20 +88,20 @@ watch(search, () => {
         </div>
       </template>
 
-      <div v-else class="celeb-select-profile-cards-container__empty-container">
-        <TextBody2 class="celeb-select-profile-cards-container__empty-message">
-          셀럽이 존재하지 않습니다.
-        </TextBody2>
-        <!-- TODO: 셀럽 추가 기능 구현
-        <BaseButton backgroundColor="var(--create)">
-          <BaseIcon name="person_add" />
-          셀럽 추가하기
-        </BaseButton>
-        -->
-      </div>
+      <TextBody2 v-else class="celeb-select-profile-cards-container__empty-message">
+        셀럽이 존재하지 않습니다.
+      </TextBody2>
+
+      <BaseButton @click="handleClickCreateCelebButton" backgroundColor="var(--create)" class="celeb-select-profile-cards-container__create-celeb-button">
+        <BaseIcon name="person_add" />
+        셀럽 추가하기
+      </BaseButton>
     </template>
 
     <CelebSelectProfileCardsSkeleton v-else />
+
+    <!-- Modal -->
+    <CelebCreateModal v-model:open="showCelebCreateModal" />
   </div>
 </template>
 
@@ -135,15 +140,12 @@ watch(search, () => {
     height: 50px;
   }
 
-  &__empty-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-  }
-
   &__empty-message {
     color: rgba(var(--gray-700));
+  }
+
+  &__create-celeb-button{
+    margin-top: 30px;
   }
 }
 </style>

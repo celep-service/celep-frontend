@@ -21,3 +21,11 @@ export type CelebsRequest = {
 }
 
 export type CelebsResponse = Pagination<CelebTemplate>
+
+export interface CreateCelebRequest {
+  payload: {
+    name: string
+    imageUrl: string
+    celebCategory: CelebCategoryCode
+  }
+}
