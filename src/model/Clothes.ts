@@ -22,7 +22,7 @@ export interface ClothesTemplate {
   bookmarkCount?: number
   name: string
   clothesCategory: ClothesCategoryCode
-  brand: string
+  brand?: string
   gender: Gender
   imageUrl: string
   sellUrl: string
@@ -36,3 +36,14 @@ export type ClothesListRequest = {
 }
 
 export type ClothesListResponse = Pagination<ClothesTemplate>
+
+export interface CreateClothesRequest {
+  payload: {
+    name: string
+    clothesCategory: ClothesCategoryCode
+    brand?: string
+    gender: Gender
+    imageUrl: string
+    sellUrl?: string
+  }
+}

@@ -51,7 +51,7 @@ const clothesListData = computed<DataTemplate[]>(() =>
     bookmarkCount: clothes.bookmarkCount!,
     title: clothes.name,
     imageUrl: clothes.imageUrl,
-    chipText: clothes.brand,
+    chipText: clothes.brand ?? '노브랜드',
     sellUrl: clothes.sellUrl
   }))
 )

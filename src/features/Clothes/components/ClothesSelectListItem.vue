@@ -36,7 +36,7 @@ const categoryColor = computed(() => {
   }
 })
 const clothesCategory = computed(() => CLOTHES_CATEGORY_MAP.get(props.clothesCategory) as string)
-const fullName = computed(() => `${props.brand} - ${props.name}`)
+const fullName = computed(() => `${props.brand ?? '노브랜드'} - ${props.name}`)
 </script>
 
 <template>

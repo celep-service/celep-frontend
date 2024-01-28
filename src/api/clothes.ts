@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/config'
-import type { ClothesListRequest, ClothesListResponse } from '@/model/Clothes'
+import type { ClothesListRequest, ClothesListResponse, CreateClothesRequest } from '@/model/Clothes'
 
 export const fetchClothesList = async (req?: ClothesListRequest, pageParam?: number) =>
   (
@@ -10,3 +10,6 @@ export const fetchClothesList = async (req?: ClothesListRequest, pageParam?: num
       }
     })
   ).data
+
+  export const createClothes = async ({ payload }: CreateClothesRequest) =>
+  (await axiosInstance.post('/clothes', payload)).data
