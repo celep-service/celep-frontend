@@ -10,11 +10,18 @@ import type { GenderCode } from '@/model/Gender'
 import type { PostsRequest } from '@/model/Post'
 import { computed, ref } from 'vue'
 
+/* Prop */
+interface Props {
+  postsRequestData?: PostsRequest
+}
+const props = withDefaults(defineProps<Props>(), {})
+
 /* Local State */
 const gender = ref<GenderCode>('MALE')
 const celebCategory = ref<CelebCategoryCode>()
 const requestData = computed<PostsRequest>(() => ({
   queryParams: {
+    ...props.postsRequestData?.queryParams,
     gender: gender.value,
     celebCategory: celebCategory.value
   }
