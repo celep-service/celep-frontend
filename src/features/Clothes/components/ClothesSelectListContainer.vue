@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ClothesCreateModal from '@/features/Clothes/components/ClothesCreateModal.vue'
 import BaseButton from '@/components/Base/BaseButton.vue'
 import BaseIcon from '@/components/Base/BaseIcon.vue'
 import BaseInput from '@/components/Base/BaseInput.vue'
@@ -36,6 +37,7 @@ const requestData = computed<ClothesListRequest>(() => ({
   }
 }))
 const hasContent = computed(() => data.value?.pages[0].data.content.length !== 0)
+const showClothesCreateModal = ref(false)
 
 /* Vue Query */
 const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -48,6 +50,9 @@ const handleClickRemoveCheckButton = (id: number) => {
 }
 const handleClickExpandMoreButton = () => {
   fetchNextPage()
+}
+const handleClickCreateClothesButton = () => {
+  showClothesCreateModal.value = true
 }
 </script>
 
@@ -106,20 +111,23 @@ const handleClickExpandMoreButton = () => {
         </div>
       </div>
 
-      <div v-else class="clothes-select-list-container__empty-container">
-        <TextBody2 class="clothes-select-list-container__empty-message">
-          의류/악세사리가 존재하지 않습니다.
-        </TextBody2>
-        <!-- TODO: clothes 추가 기능 구현
-        <BaseButton backgroundColor="var(--create)">
-          <BaseIcon name="add" />
-          추가하기
-        </BaseButton>
-        -->
-      </div>
+      <TextBody2 v-else class="clothes-select-list-container__empty-message">
+        의류/악세사리가 존재하지 않습니다.
+      </TextBody2>
+      <BaseButton
+        @click="handleClickCreateClothesButton"
+        backgroundColor="var(--create)"
+        class="clothes-select-list-container__create-clothes-button"
+      >
+        <BaseIcon name="add" />
+        의류/악세사리 추가하기
+      </BaseButton>
     </template>
 
     <ClothesSelectListSkeleton v-else />
+
+    <!-- Modal -->
+    <ClothesCreateModal v-model:open="showClothesCreateModal" />
   </div>
 </template>
 
@@ -177,15 +185,12 @@ const handleClickExpandMoreButton = () => {
     height: 50px;
   }
 
-  &__empty-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-  }
-
   &__empty-message {
     color: rgba(var(--gray-700));
+  }
+
+  &__create-clothes-button {
+    margin-top: 30px;
   }
 }
 </style>
