@@ -89,6 +89,10 @@ onUpdated(() => {
   border: none;
   border-radius: 10px;
 
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
   &__wrapper {
     display: flex;
     flex-direction: column;
