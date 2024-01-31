@@ -4,7 +4,7 @@ import BaseSkeleton from '@/components/Base/BaseSkeleton.vue'
 
 <template>
   <div class="celeb-select-profile-cards-skeleton">
-    <div v-for="i in 4" :key="i" class="celeb-select-profile-cards-skeleton__card">
+    <div v-for="i in 16" :key="i" class="celeb-select-profile-cards-skeleton__card">
       <div class="celeb-select-profile-cards-skeleton__avatar-wrapper">
         <BaseSkeleton shape="circle" width="100%" height="100%" />
       </div>
@@ -15,20 +15,21 @@ import BaseSkeleton from '@/components/Base/BaseSkeleton.vue'
 
 <style scoped lang="scss">
 .celeb-select-profile-cards-skeleton {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px 20px;
-  width: 260px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 10px;
+  max-width: 340px;
 
   &__card {
     display: flex;
     flex-direction: column;
     gap: 6px;
     align-items: center;
+    padding: 8px;
   }
 
   &__avatar-wrapper {
-    width: 50px;
+    width: 64px;
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: rgba(var(--gray-300));

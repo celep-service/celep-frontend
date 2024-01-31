@@ -92,7 +92,11 @@ watch(search, () => {
         셀럽이 존재하지 않습니다.
       </TextBody2>
 
-      <BaseButton @click="handleClickCreateCelebButton" backgroundColor="var(--create)" class="celeb-select-profile-cards-container__create-celeb-button">
+      <BaseButton
+        @click="handleClickCreateCelebButton"
+        backgroundColor="var(--create)"
+        class="celeb-select-profile-cards-container__create-celeb-button"
+      >
         <BaseIcon name="person_add" />
         셀럽 추가하기
       </BaseButton>
@@ -119,11 +123,11 @@ watch(search, () => {
   }
 
   &__cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    width: 90vw;
-    max-width: 500px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 10px;
+    max-width: 340px;
+    height: fit-content;
   }
 
   &__expand-more-button {
@@ -144,7 +148,7 @@ watch(search, () => {
     color: rgba(var(--gray-700));
   }
 
-  &__create-celeb-button{
+  &__create-celeb-button {
     margin-top: 30px;
   }
 }
