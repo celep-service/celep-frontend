@@ -66,7 +66,7 @@ const handleClickInputCompleteButton = () => {
           @click="handleClickInputCompleteButton"
           class="posts-create-gender-view__button"
         >
-          입력완료
+          다음으로
         </BaseButton>
       </div>
     </main>

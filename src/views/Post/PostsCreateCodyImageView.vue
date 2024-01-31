@@ -65,7 +65,7 @@ const handleClickInputCompleteButton = () => {
           @click="handleClickInputCompleteButton"
           class="posts-create-cody-image-view__button"
         >
-          입력완료
+          다음으로
         </BaseButton>
       </div>
     </main>

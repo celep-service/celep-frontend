@@ -40,7 +40,7 @@ const handleClickSelectCompleteButton = () => {
         @click="handleClickSelectCompleteButton"
         class="posts-create-celeb-view__select-complete-button"
       >
-        선택완료
+        다음으로
       </BaseButton>
     </main>
   </ViewContainer>
@@ -64,7 +64,8 @@ const handleClickSelectCompleteButton = () => {
   &__select-complete-button {
     width: 40vw;
     max-width: 130px;
-    margin-top: 20px;
+    margin-top: 40px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: 20px;
   }
