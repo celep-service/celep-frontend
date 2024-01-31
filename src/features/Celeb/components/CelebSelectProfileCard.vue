@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TextBody2 from '@/components/Text/TextBody2.vue';
-import { v4 as uuidv4 } from 'uuid';
-import { computed } from 'vue';
+import TextBody2 from '@/components/Text/TextBody2.vue'
+import { v4 as uuidv4 } from 'uuid'
+import { computed, type CSSProperties } from 'vue'
 
 /* Prop */
 interface Props {
@@ -29,6 +29,10 @@ const modelValue = computed({
   }
 })
 const isChecked = computed(() => modelValue.value === props.id)
+const avatarStyle = computed<CSSProperties>(() => ({
+  backgroundImage: `url(${props.imageUrl})`,
+  backgroundColor: props.imageUrl ?? 'rgba(var(--gray-300))'
+}))
 </script>
 
 <template>
@@ -38,10 +42,10 @@ const isChecked = computed(() => modelValue.value === props.id)
     :class="{ 'celeb-select-profile-card--checked': isChecked }"
   >
     <div class="celeb-select-profile-card__avatar-wrapper">
-      <img class="celeb-select-profile-card__avatar" :src="imageUrl" />
+      <div class="celeb-select-profile-card__avatar" :style="avatarStyle"></div>
     </div>
 
-    <TextBody2 weight="500" class="celeb-select-profile-card__celeb-name">{{ name }}</TextBody2>
+    <TextBody2 weight="550" class="celeb-select-profile-card__celeb-name">{{ name }}</TextBody2>
 
     <input
       type="radio"
@@ -60,26 +64,33 @@ const isChecked = computed(() => modelValue.value === props.id)
   flex-direction: column;
   gap: 6px;
   align-items: center;
-  max-width: 100px;
-  padding: 14px;
-  border: solid 1px rgba(var(--gray-200));
-  border-radius: 8px;
+  padding: 8px;
 
   &--checked {
-    border-color: rgba(var(--blue));
+    .celeb-select-profile-card__avatar-wrapper {
+      border-color: rgba(var(--blue));
+    }
+
+    .celeb-select-profile-card__celeb-name {
+      color: rgba(var(--blue));
+      font-weight: 650;
+    }
   }
 
   &__avatar-wrapper {
-    width: 50px;
-    aspect-ratio: 1;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background-color: rgba(var(--gray-300));
-    overflow: hidden;
+    border: solid 2px rgba(var(--white));
   }
 
   &__avatar {
     width: 100%;
     height: 100%;
+    border-radius: inherit;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   &__celeb-name {
