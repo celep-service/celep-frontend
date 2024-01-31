@@ -9,17 +9,48 @@ import CelebSelectProfileCard from '@/features/Celeb/components/CelebSelectProfi
 import CelebSelectProfileCardsSkeleton from '@/features/Celeb/components/CelebSelectProfileCardsSkeleton.vue'
 import useFetchCelebsInfiniteQuery from '@/features/Celeb/composables/useFetchCelebsInfiniteQuery'
 import useCreatePostStore from '@/features/Post/stores/useCreatePostStore'
-import type { CelebsRequest } from '@/model/Celeb'
+import type { CelebCategory, CelebCategoryCode, CelebsRequest } from '@/model/Celeb'
 import { storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
+import BaseSelect, { type BaseSelectOption } from '@/components/Base/BaseSelect.vue'
+
+/* Constant */
+const CELEB_CATEGORY_OPTIONS: BaseSelectOption<CelebCategoryCode, CelebCategory>[] = [
+  {
+    value: 'TALENT',
+    label: '탤런트'
+  },
+  {
+    value: 'MODEL',
+    label: '모델'
+  },
+  {
+    value: 'SINGER',
+    label: '가수'
+  },
+  {
+    value: 'ACTOR',
+    label: '배우'
+  },
+  {
+    value: 'INFLUENCER',
+    label: '인플루언서'
+  },
+  {
+    value: 'ETC',
+    label: '기타'
+  }
+]
 
 /* Pinia */
 const { celebId, celebNameSearchKeyword: search } = storeToRefs(useCreatePostStore())
 const { resetCelebId } = useCreatePostStore()
 
 /* Local State */
+const celebCategory = ref<CelebCategoryCode>()
 const requestData = computed<CelebsRequest>(() => ({
   queryParams: {
+    celebCategory: celebCategory.value,
     search: search.value
   }
 }))
@@ -39,20 +70,30 @@ const handleClickCreateCelebButton = () => {
 }
 
 /* Watch */
-watch(search, () => {
+watch([search, celebCategory], () => {
   resetCelebId()
 })
 </script>
 
 <template>
   <div class="celeb-select-profile-cards-container">
-    <BaseInput
-      v-model="search"
-      label="셀럽 찾기"
-      :focus="true"
-      :debounce="true"
-      class="celeb-select-profile-cards-container__search-input"
-    />
+    <div class="celeb-select-profile-cards-container__search-bar">
+      <BaseSelect
+        v-model="celebCategory"
+        :options="CELEB_CATEGORY_OPTIONS"
+        placeholder="전체"
+        color="var(--gray-600)"
+        borderColor="var(--gray-400)"
+        class="celeb-select-profile-cards-container__category-select"
+      />
+      <BaseInput
+        v-model="search"
+        label="검색"
+        :focus="true"
+        :debounce="true"
+        class="celeb-select-profile-cards-container__search-input"
+      />
+    </div>
 
     <template v-if="data">
       <template v-if="hasContent">
@@ -117,9 +158,15 @@ watch(search, () => {
   width: 100%;
   margin-top: 50px;
 
+  &__search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
   &__search-input {
     width: 200px;
-    margin-bottom: 50px;
   }
 
   &__cards {
