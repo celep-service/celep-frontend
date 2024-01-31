@@ -54,7 +54,7 @@ const handleClickInputCompleteButton = () => {
           이전으로
         </BaseButton>
         <BaseButton @click="handleClickInputCompleteButton" class="posts-create-title-view__button">
-          입력완료
+          다음으로
         </BaseButton>
       </div>
     </main>

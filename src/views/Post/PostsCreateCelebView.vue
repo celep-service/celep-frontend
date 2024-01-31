@@ -40,7 +40,7 @@ const handleClickSelectCompleteButton = () => {
         @click="handleClickSelectCompleteButton"
         class="posts-create-celeb-view__select-complete-button"
       >
-        선택완료
+        다음으로
       </BaseButton>
     </main>
   </ViewContainer>
