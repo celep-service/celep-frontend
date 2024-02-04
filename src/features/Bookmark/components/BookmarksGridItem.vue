@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import IconButton from '@/components/Common/IconButton.vue'
 import useToggleBookmarkMutation from '@/features/Bookmark/composables/useToggleBookmarkMutation'
+import ClothesDetailModal from '@/features/Clothes/components/ClothesDetailModal.vue'
 import type { BookmarkTemplate, BookmarkType } from '@/model/Bookmark'
+import type { ClothesTemplate } from '@/model/Clothes'
 import useConfirmDialogStore from '@/stores/useConfirmDialogStore'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 /* Prop */
@@ -22,6 +24,7 @@ const { showConfirmDialog } = useConfirmDialogStore()
 
 /* Local State */
 const backgroundImageUrlString = computed(() => `url(${props.bookmark.imageUrl})`)
+const showClothesDetailModal = ref(false)
 
 /* Vue Query */
 const { mutate: toggleBookmarkMutate, isLoading: isLoadingToggleBookmark } =
@@ -29,9 +32,12 @@ const { mutate: toggleBookmarkMutate, isLoading: isLoadingToggleBookmark } =
 
 /* Event Handler */
 const handleClickItem = () => {
-  if (props.bookmarkType !== 'post') return
-
-  router.push({ name: 'bookmarks/posts', query: { postId: props.bookmark.id } })
+  if (props.bookmarkType === 'post') {
+    router.push({ name: 'bookmarks/posts', query: { postId: props.bookmark.id } })
+  }
+  if (props.bookmarkType === 'clothes') {
+    showClothesDetailModal.value = true
+  }
 }
 const handleClickBookmarkButton = () => {
   showConfirmDialog('북마크에서 삭제하시겠습니까?', () =>
@@ -56,6 +62,12 @@ const handleClickBookmarkButton = () => {
         isLoading: isLoadingToggleBookmark
       }"
       class="bookmarks-grid-item__bookmark-button"
+    />
+
+    <!-- Modal -->
+    <ClothesDetailModal
+      v-model:open="showClothesDetailModal"
+      :clothes="(bookmark as ClothesTemplate)"
     />
   </div>
 </template>
