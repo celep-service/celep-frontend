@@ -3,6 +3,10 @@ import IconButton from '@/components/Common/IconButton.vue'
 import TextSubheading from '@/components/Text/TextSubheading.vue'
 import { computed, onMounted, onUpdated, ref } from 'vue'
 
+defineOptions({
+  inheritAttrs: false
+})
+
 /* Props */
 interface Props {
   title: string
@@ -57,30 +61,32 @@ onUpdated(() => {
 </script>
 
 <template>
-  <dialog
-    v-if="props.open"
-    ref="modalRef"
-    @click="handleClickModal"
-    :style="{ width: props.width }"
-    class="base-modal"
-  >
-    <div class="base-modal__wrapper">
-      <div class="base-modal__header">
-        <TextSubheading weight="600">{{ title }}</TextSubheading>
-        <IconButton
-          @click="handleClickCloseButton"
-          :icon-option="{
-            name: 'close',
-            opsz: '22'
-          }"
-          class="base-modal__close-button"
-        />
+  <Teleport to="body" v-if="props.open">
+    <dialog
+      v-bind="$attrs"
+      ref="modalRef"
+      @click="handleClickModal"
+      :style="{ width: props.width }"
+      class="base-modal"
+    >
+      <div class="base-modal__wrapper">
+        <div class="base-modal__header">
+          <TextSubheading weight="600">{{ title }}</TextSubheading>
+          <IconButton
+            @click="handleClickCloseButton"
+            :icon-option="{
+              name: 'close',
+              opsz: '22'
+            }"
+            class="base-modal__close-button"
+          />
+        </div>
+        <div class="base-modal__content">
+          <slot></slot>
+        </div>
       </div>
-      <div class="base-modal__content">
-        <slot></slot>
-      </div>
-    </div>
-  </dialog>
+    </dialog>
+  </Teleport>
 </template>
 
 <style scoped lang="scss">
