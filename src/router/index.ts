@@ -18,7 +18,7 @@ router.beforeEach(async (to, _, next) => {
   const { showToastMessage } = useToastMessageStore()
   const { isActive: isActiveBottomTabBar } = storeToRefs(useBottomTabBarStore())
 
-  if (!isSplashViewShown && to.name !== 'splash') {
+  if (!isSplashViewShown.value && to.name !== 'splash') {
     next({ name: 'splash', query: { redirectRoute: to.name } } as RouteLocationRaw)
     return
   }
