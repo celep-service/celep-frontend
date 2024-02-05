@@ -25,8 +25,6 @@ const paddingBottom = computed(() =>
 <style scoped>
 .view-container {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
   padding-top: var(--app-bar-height);
   padding-bottom: v-bind(paddingBottom);
 }

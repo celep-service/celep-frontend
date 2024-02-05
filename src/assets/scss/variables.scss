@@ -1,4 +1,4 @@
 :root {
   --app-bar-height: 60px;
-  --bottom-tab-bar-height: 50px;
+  --bottom-tab-bar-height: calc(50px + env(safe-area-inset-bottom));
 }
