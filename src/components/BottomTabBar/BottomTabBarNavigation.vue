@@ -1,14 +1,12 @@
 <script lang="ts">
 export interface BottomTabBarNavigationProps {
   iconName: string
-  text: string
   routeName: string
 }
 </script>
 
 <script setup lang="ts">
 import BaseIcon from '@/components/Base/BaseIcon.vue'
-import TextBody2 from '@/components/Text/TextBody2.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -45,7 +43,6 @@ const handleClickNavigation = () => {
       :fill="Number(isCurrentRoute)"
       class="bottom-tab-bar-navigation__icon"
     />
-    <TextBody2 weight="500">{{ text }}</TextBody2>
   </div>
 </template>
 
@@ -55,7 +52,6 @@ const handleClickNavigation = () => {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 50px;
   padding-inline: 10px;
 }
 
