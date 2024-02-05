@@ -120,6 +120,7 @@ watch(loggedInUserData, (loggedInUserData) => {
 
 <style scoped lang="scss">
 .login-view {
+  height: 100%;
   padding-top: 0;
 
   &__main {
