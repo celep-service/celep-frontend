@@ -3,6 +3,7 @@ import TextHero from '@/components/Text/TextHero.vue'
 import { ACCESS_TOKEN_KEY } from '@/constants/jwt'
 import useFetchLoggedInUserQuery from '@/features/User/composables/useFetchLoggedInUserQuery'
 import useUserStore from '@/features/User/stores/useUserStore'
+import useSplashStore from '@/stores/useSplashStore'
 import { storeToRefs } from 'pinia'
 import { onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -16,6 +17,7 @@ const redirectRoute = route.query.redirectRoute
 
 /* Pinia */
 const { user } = storeToRefs(useUserStore())
+const { isSplashViewShown } = storeToRefs(useSplashStore())
 
 /* Vue Query */
 const { data: loggedInUserData } = useFetchLoggedInUserQuery(!!accessToken)
@@ -31,6 +33,8 @@ const redirectToRoute = () => {
 
 /* Hook */
 onMounted(() => {
+  isSplashViewShown.value = true
+
   if (accessToken) return
 
   redirectToRoute()

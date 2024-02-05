@@ -2,6 +2,7 @@ import useToastMessageStore from '@/composables/useToastMessageStore'
 import useUserStore from '@/features/User/stores/useUserStore'
 import routes from '@/router/routes'
 import useBottomTabBarStore from '@/stores/useBottomTabBarStore'
+import useSplashStore from '@/stores/useSplashStore'
 import { storeToRefs } from 'pinia'
 import { createRouter, createWebHistory, type RouteLocationRaw } from 'vue-router'
 
@@ -10,17 +11,15 @@ const router = createRouter({
   routes
 })
 
-let isSplashViewShown = false
-
 router.beforeEach(async (to, _, next) => {
   /* Pinia */
   const { isAuthenticated } = storeToRefs(useUserStore())
+  const { isSplashViewShown } = storeToRefs(useSplashStore())
   const { showToastMessage } = useToastMessageStore()
   const { isActive: isActiveBottomTabBar } = storeToRefs(useBottomTabBarStore())
 
   if (!isSplashViewShown && to.name !== 'splash') {
     next({ name: 'splash', query: { redirectRoute: to.name } } as RouteLocationRaw)
-    isSplashViewShown = true
     return
   }
 
